@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jaslok@Home · Jaslok Homecare</title>
+<meta name="description" content="Jaslok@Home: home nursing, home phlebotomy and home ICU care from Jaslok Hospital. Expert care at your doorstep.">
+<meta name="theme-color" content="#1F6F6B">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<style>
+/* ---------- public site ---------- */
+body{background:var(--bg)}
+.nav{background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.nav .wrap{display:flex;align-items:center;gap:8px;height:66px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand svg{width:38px;height:38px}
+.brand .bt{font-family:"Libre Baskerville",Georgia,serif;font-weight:700;font-size:20px;letter-spacing:-.3px;line-height:1}
+.brand .bs{font-size:11px;color:var(--muted);letter-spacing:.3px;margin-top:3px}
+.nav a.l{color:var(--ink2);text-decoration:none;font-weight:500;padding:8px 10px;border-radius:8px;font-size:14.5px}
+.nav a.l:hover{background:var(--accent-soft);color:var(--accent)}
+@media (max-width:900px){ .nav a.l{display:none} }
+@media (max-width:520px){ .brand .bs{display:none} .nav .btn.sm{padding:5px 9px} #navReq{display:none} }
+
+.hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#EAF4F2 0%,#F7FBFA 55%,#E3F0EE 100%);padding:56px 0 90px}
+.hero .wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:40px;align-items:center;position:relative;z-index:1}
+.hero-logo{display:flex;flex-direction:column;align-items:flex-start}
+.hero-logo svg{width:150px;height:auto;margin-left:40px}
+.hero h1{font-family:"Libre Baskerville",Georgia,serif;font-size:58px;line-height:1;letter-spacing:-1.5px;margin:0;color:#1E2B2A}
+.hero .rule{display:flex;align-items:center;gap:8px;margin:14px 0 22px 40px;color:var(--accent)}
+.hero .rule span{display:block;width:90px;height:2px;background:#1E2B2A;opacity:.7}
+.hero .tag{font-size:30px;font-weight:500;line-height:1.25;margin:0 0 14px;color:#1E2B2A}
+.hero p.lead{font-size:17px;color:var(--ink2);margin:0 0 26px;max-width:470px}
+.hero .ctas{display:flex;gap:10px;flex-wrap:wrap}
+.hero .ctas .btn{padding:13px 22px;font-size:15.5px;border-radius:12px}
+.hero-art{position:relative;display:flex;justify-content:center}
+.hero-card{background:#fff;border-radius:24px;box-shadow:0 20px 50px rgba(20,70,66,.14);padding:26px 24px 22px;max-width:420px;width:100%}
+.hero-card h3{margin:0 0 4px;font-size:17px}
+.hero-card .sub{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+.call{display:flex;align-items:center;gap:14px;background:var(--accent);color:#fff;border-radius:16px;padding:14px 16px;text-decoration:none}
+.call .av{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex:none}
+.call .av svg{width:30px;height:30px;stroke:#fff;fill:none;stroke-width:1.7}
+.call b{display:block;font-size:15px;font-weight:600}
+.call .num{font-size:22px;font-weight:700;letter-spacing:.3px}
+.hero-card ul{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--ink2)}
+.hero-card li{display:flex;gap:10px;align-items:flex-start}
+.hero-card li i{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-style:normal;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+.badge-house{position:absolute;right:-6px;bottom:-34px;width:96px;height:96px;border-radius:50%;background:var(--accent);border:6px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(20,70,66,.25)}
+.badge-house svg{width:48px;height:48px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linejoin:round}
+.wave{position:absolute;left:0;right:0;bottom:-1px;height:80px;z-index:0}
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:1fr} .hero h1{font-size:42px} .hero .tag{font-size:24px}
+  .hero-logo svg{width:110px;margin-left:24px} .hero .rule{margin-left:24px} .badge-house{display:none} .hero{padding:36px 0 70px}
+}
+section.s{padding:64px 0}
+.sec-title{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 8px;font-size:26px;font-weight:700;color:#1E2B2A;letter-spacing:.5px;text-transform:uppercase;text-align:center}
+.sec-title::before,.sec-title::after{content:"";width:70px;height:2px;background:#1E2B2A;opacity:.7;border-radius:2px}
+.sec-sub{text-align:center;color:var(--ink2);margin:0 auto 34px;max-width:620px}
+@media (max-width:520px){ .sec-title{font-size:20px} .sec-title::before,.sec-title::after{width:28px} }
+.svc3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:900px){ .svc3{grid-template-columns:1fr} }
+.svc{background:#fff;border:1px solid var(--line);border-radius:22px;padding:56px 22px 18px;position:relative;margin-top:40px;box-shadow:var(--shadow)}
+.svc .top{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:80px;height:80px;border-radius:50%;background:var(--accent);border:5px solid #fff;box-shadow:0 6px 18px rgba(20,70,66,.2);display:flex;align-items:center;justify-content:center}
+.svc .top svg{width:40px;height:40px;stroke:#fff;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.svc h3{text-align:center;text-transform:uppercase;font-size:18px;letter-spacing:.4px;margin:0;line-height:1.3}
+.svc .heart{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0 8px;color:var(--accent)}
+.svc .heart span{width:60px;height:1.5px;background:#1E2B2A;opacity:.5}
+.svc ul{list-style:none;margin:0;padding:0}
+.svc li{display:flex;gap:14px;align-items:center;padding:14px 4px;border-bottom:1px dashed var(--line2);font-weight:600;font-size:15.5px}
+.svc li:last-child{border-bottom:none}
+.svc li .ic{flex:none;width:46px;height:46px;border-radius:50%;background:#EEF5F4;display:flex;align-items:center;justify-content:center}
+.svc li .ic svg{width:26px;height:26px;stroke:var(--accent);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:0 auto}
+.why .it{text-align:center;padding:10px}
+.why .ic{width:74px;height:74px;margin:0 auto 10px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.why .ic svg{width:38px;height:38px;stroke:var(--accent);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.why b{display:block;font-size:15.5px}
+.why span{color:var(--ink2);font-size:13.5px}
+@media (max-width:640px){ .why{grid-template-columns:1fr} }
+.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.steps4 .st{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:18px}
+.steps4 .n{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.steps4 b{display:block;margin-bottom:4px}
+.steps4 span{color:var(--ink2);font-size:14px}
+@media (max-width:900px){ .steps4{grid-template-columns:1fr 1fr} } @media (max-width:520px){ .steps4{grid-template-columns:1fr} }
+.portal-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.portal-strip .it{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:18px}
+.portal-strip h3{margin:0 0 6px;font-size:16px;color:var(--accent)}
+.portal-strip ul{margin:0;padding-left:18px;color:var(--ink2);font-size:14px}
+@media (max-width:900px){ .portal-strip{grid-template-columns:1fr} }
+.inq{display:grid;grid-template-columns:1fr 1.3fr;gap:40px;align-items:start}
+@media (max-width:900px){ .inq{grid-template-columns:1fr} }
+.inq h2{font-size:30px;margin:6px 0 10px;letter-spacing:-.4px}
+.eyebrow{font-size:12.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent2);font-weight:700}
+.formcard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+footer{background:#163F3C;color:#CFE3E0;padding:30px 0 34px;font-size:13.5px;margin-top:0}
+footer .wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+footer a{color:#fff}
+footer .ecg{width:100%;height:24px;stroke:#5FA9A3;fill:none;stroke-width:1.5;opacity:.7;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="#top" aria-label="Jaslok@Home home">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#1F6F6B"/><path d="M10 24 24 12l14 12" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 22v13h18V22" stroke="#fff" stroke-width="2.6" fill="none" stroke-linejoin="round"/><path d="M24 33s-5-3-5-6.4a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1C29 30 24 33 24 33z" fill="#fff"/></svg>
+    <div><div class="bt">Jaslok@Home</div><div class="bs">Jaslok Hospital · A lifetime of care</div></div>
+  </a>
+  <span class="spacer"></span>
+  <a class="l" href="#services">Services</a>
+  <a class="l" href="#why">Why us</a>
+  <a class="l" href="#how">How it works</a>
+  <a class="l" href="#inquiry">Contact</a>
+  <button class="btn sm hidden" data-install title="Install this website as an app">⤓ Install app</button>
+  <span id="navAuth"><button class="btn sm" data-open-login>Log in</button></span>
+  <a class="btn sm primary" href="#inquiry" id="navReq">Enquire</a>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="hero-logo">
+        <svg viewBox="0 0 200 92" aria-hidden="true"><path d="M8 70 92 8l26 19V14h16v25l58 31" fill="none" stroke="#2F3B3A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M100 22c-5-6-14-2-12 5 1 5 12 11 12 11s11-6 12-11c2-7-7-11-12-5z" fill="#2F3B3A"/><path d="M95 29l4 4 6-7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="86" cy="50" r="6" fill="#2F3B3A"/><circle cx="114" cy="50" r="6" fill="#2F3B3A"/><circle cx="100" cy="56" r="7" fill="#2F3B3A"/>
+          <path d="M74 74c0-9 6-14 12-14s12 5 12 14zM102 74c0-9 6-14 12-14s12 5 12 14z" fill="#2F3B3A"/><path d="M86 84c0-10 6-16 14-16s14 6 14 16z" fill="#2F3B3A"/></svg>
+        <h1>Jaslok@Home</h1>
+        <div class="rule"><span></span>♥<span></span></div>
+      </div>
+      <p class="tag">Expert Care.<br>At Your Doorstep.</p>
+      <p class="lead">Bringing Jaslok Hospital’s trusted healthcare services to the comfort of your home.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#inquiry">Send an enquiry</a>
+        <a class="btn" href="tel:+917301900190">Call +91 73 0190 0190</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-card">
+        <h3>Appointments &amp; Enquiries</h3>
+        <div class="sub">Speak to our home-care coordinator</div>
+        <a class="call" href="tel:+917301900190">
+          <span class="av"><svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.5"/><rect x="17.5" y="13" width="4" height="6" rx="1.5"/><path d="M19.5 19c0 1.5-2 2.5-5 2.5"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <span><b>Ms. Geeta Yerulkar</b><span class="num">+91 73 0190 0190</span></span>
+        </a>
+        <ul>
+          <li><i>1</i><span>Tell us what the patient needs, by phone or the form below.</span></li>
+          <li><i>2</i><span>Our coordinator confirms the service, start date and charges.</span></li>
+          <li><i>3</i><span>Our nurse, phlebotomist or ICU team comes to your home.</span></li>
+        </ul>
+      </div>
+      <div class="badge-house"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7M5.5 9.5V20h13V9.5"/><path d="M12 11v6M9 14h6" stroke-linecap="round"/></svg></div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50C320 90 720 10 1440 40V80H0z" fill="#F4F9F8"/><path d="M0 50C320 90 720 10 1440 40" fill="none" stroke="#1F6F6B" stroke-width="10" opacity=".9"/></svg>
+</header>
+
+<section class="s" id="services"><div class="wrap">
+  <h2 class="sec-title">Our services</h2>
+  <p class="sec-sub">Pick a service in the enquiry form, or simply describe the patient’s condition and we will advise you.</p>
+  <div class="svc3" id="svcList"></div>
+</div></section>
+
+<section class="s alt" id="why"><div class="wrap">
+  <h2 class="sec-title">Why choose us?</h2>
+  <p class="sec-sub">The standards of Jaslok Hospital, at home.</p>
+  <div class="why">
+    <div class="it"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="7" cy="6" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="6" r="2"/><path d="M4 12c0-2 1.5-3 3-3s3 1 3 3M9 11c0-2 1.3-3 3-3s3 1 3 3M14 12c0-2 1.5-3 3-3s3 1 3 3"/><path d="M3 17l4-2 4 1h4a1.5 1.5 0 0 1 0 3h-4M3 21l5-1 6 1 7-4"/><path d="M12 15.5s-2-1.2-2-2.6a1 1 0 0 1 2-.4 1 1 0 0 1 2 .4c0 1.4-2 2.6-2 2.6z"/></svg></div><b>Care Designed Around You</b><span>A care plan built around the patient, the doctor’s advice and your family’s routine.</span></div>
+    <div class="it"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2"/><path d="M12 16s-4-2.4-4-5a2 2 0 0 1 4-1 2 2 0 0 1 4 1c0 2.6-4 5-4 5z"/></svg></div><b>Compassion in Every Action</b><span>Patient, respectful staff who treat your family like their own.</span></div>
+    <div class="it"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><b>Excellence You Can Trust</b><span>Trained nurses and clinicians working with Jaslok Hospital’s doctors.</span></div>
+  </div>
+</div></section>
+
+<section class="s" id="how"><div class="wrap">
+  <h2 class="sec-title">How it works</h2>
+  <p class="sec-sub">From the first call to day-to-day updates.</p>
+  <div class="steps4">
+    <div class="st"><div class="n">1</div><b>Enquire</b><span>Call Ms. Geeta Yerulkar or send the form. No account needed.</span></div>
+    <div class="st"><div class="n">2</div><b>Plan</b><span>We confirm the service, start date and charges with you.</span></div>
+    <div class="st"><div class="n">3</div><b>Care at home</b><span>Our team arrives on the agreed date and follows the doctor’s plan.</span></div>
+    <div class="st"><div class="n">4</div><b>Track online</b><span>Log in to see the current service, past visits, bills and documents.</span></div>
+  </div>
+  <div class="portal-strip">
+    <div class="it"><h3>Patients &amp; families</h3><ul><li>Current service and assigned nurse</li><li>Service history and bills</li><li>Reports and documents from the office</li><li>Send queries, feedback or a concern, with attachments</li></ul></div>
+    <div class="it"><h3>Our staff</h3><ul><li>Duties with directions to the patient’s home</li><li>Patient notes shared by the office</li><li>Handover notes, alerts and photos to the office</li><li>Earnings for each duty</li></ul></div>
+    <div class="it"><h3>Install it like an app</h3><ul><li>Works on Android, iPhone and computers</li><li>Opens straight to your account</li><li>Tap “Install app” at the top, or your browser’s “Add to Home Screen”</li></ul></div>
+  </div>
+</div></section>
+
+<section class="s alt" id="inquiry"><div class="wrap inq">
+  <div>
+    <div class="eyebrow">Appointments &amp; Enquiries</div>
+    <h2>Tell us what you need</h2>
+    <p class="muted" style="font-size:15.5px">Send the form and our coordinator will call you back. You can attach a prescription or discharge summary.</p>
+    <a class="call" href="tel:+917301900190" style="margin-top:18px;max-width:380px">
+      <span class="av"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span>
+      <span><b>Ms. Geeta Yerulkar</b><span class="num">+91 73 0190 0190</span></span>
+    </a>
+    <p class="muted" style="font-size:13.5px;margin-top:16px">In an emergency, call 112 or go to the nearest hospital.</p>
+  </div>
+  <form class="formcard stack" id="inqForm" novalidate>
+    <div class="grid2">
+      <label class="f">Your name<input class="in" name="name" autocomplete="name" required></label>
+      <label class="f">Mobile number<input class="in" name="phone" inputmode="tel" autocomplete="tel" required placeholder="10-digit number"></label>
+    </div>
+    <div class="grid2">
+      <label class="f">Service needed<select class="in" name="service" id="inqSvc"></select></label>
+      <label class="f">Preferred start date<input class="in" type="date" name="startDate"></label>
+    </div>
+    <div class="grid2">
+      <label class="f">Area / locality<input class="in" name="locality" placeholder="e.g. Peddar Road"></label>
+      <label class="f">Email <small>(optional)</small><input class="in" type="email" name="email" autocomplete="email"></label>
+    </div>
+    <label class="f">About the patient <small>Age, condition, hours of care needed, anything else we should know.</small><textarea class="in" name="message"></textarea></label>
+    <div id="inqFiles"></div>
+    <div id="inqMsg"></div>
+    <button class="btn primary" type="submit" style="padding:12px">Send enquiry</button>
+  </form>
+</div></section>
+
+<footer><div class="wrap">
+  <svg class="ecg" viewBox="0 0 600 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12h250l8-10 8 20 8-14 6 4h20l6-6 6 6h288"/></svg>
+  <span>© <span id="yr"></span> Jaslok@Home · Jaslok Hospital</span>
+  <span class="spacer"></span>
+  <a href="tel:+917301900190">+91 73 0190 0190</a>
+  <a href="#" data-open-login>Patient login</a>
+  <a href="#" data-open-login data-staff>Staff &amp; admin login</a>
+  <a href="#" data-install class="hidden">Install app</a>
+</div></footer>
+
+<!-- login / signup -->
+<div class="modal-bg hidden" id="authBg"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h2 id="authTitle">Welcome</h2>
+  <div class="muted" style="font-size:14px">Patients, staff and the office all log in here.</div>
+  <div class="seg"><button data-m="login" class="on">Log in</button><button data-m="signup">New patient account</button></div>
+
+  <form id="loginF" class="stack" novalidate>
+    <label class="f">Mobile number, email or Staff ID<input class="in" name="id" autocomplete="username" required></label>
+    <label class="f">Password<input class="in" type="password" name="pw" autocomplete="current-password" required></label>
+    <div class="muted" style="font-size:13px">Staff: use the Staff ID and password the office gave you.</div>
+    <div class="msg"></div>
+    <button class="btn primary" type="submit" style="padding:11px">Log in</button>
+    <div class="muted" style="font-size:13px">Forgot your password? Call +91 73 0190 0190 and the office will reset it.</div>
+  </form>
+
+  <form id="signupF" class="stack hidden" novalidate>
+    <label class="f">Patient’s full name<input class="in" name="name" autocomplete="name" required></label>
+    <div class="grid2">
+      <label class="f">Mobile number<small>Use the number you gave our office, so your care records appear automatically.</small><input class="in" name="phone" inputmode="tel" autocomplete="tel" required></label>
+      <label class="f">Email <small>(optional)</small><input class="in" type="email" name="email" autocomplete="email"></label>
+    </div>
+    <label class="f">Address <small>(optional)</small><input class="in" name="address" autocomplete="street-address"></label>
+    <label class="f">Choose a password<small>At least 8 characters, with letters and a number.</small><input class="in" type="password" name="pw" autocomplete="new-password" required></label>
+    <div class="msg"></div>
+    <button class="btn primary" type="submit" style="padding:11px">Create account</button>
+  </form>
+</div></div>
+
+<div id="toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/store.js"></script>
+<script src="js/common.js"></script>
+<script>
+"use strict";
+/* ---- Services shown on the website (from the Jaslok@Home leaflet) ---- */
+const SERVICES = [
+  { title:'Home Nursing Care', icon:'nurse', items:[['home','Nursing care at home'],['bed','Post-hospitalization support'],['hands','Long-term care'],['elder','Elderly care']] },
+  { title:'Home Phlebotomy', icon:'micro', items:[['bag','Sample collection at home'],['tubes','Routine & specialized tests'],['report','Timely reports']] },
+  { title:'Home ICU Care', icon:'monitor', items:[['icu','ICU setup at home'],['nurse2','Critical care nursing'],['lungs','Ventilator support'],['doc','Doctor supervision']] }
+];
+const I = {
+  nurse:'<path d="M8 6.5 12 4l4 2.5V9H8z"/><path d="M11 6h2M12 5v2"/><path d="M8 9a4 4 0 0 0 8 0"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/><path d="M10 15l2 3 2-3"/>',
+  micro:'<path d="M6 3v14a2 2 0 0 0 4 0V3M5 3h6M6 10h4"/><path d="M15 5l3 2-2 4-3-2zM15 11a4 4 0 1 0 4 4M13 21h8"/>',
+  monitor:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M5 11h3l1.5-3 2.5 6 1.5-3H17"/><path d="M9 21h6M12 17v4"/>',
+  home:'<path d="M4 11 12 4l8 7M6 9.5V13"/><path d="M3 19c3 0 4-2 6-2h5a1.5 1.5 0 0 1 0 3H10M3 22l6-1 6 1 6-4"/><path d="M11 9h2M12 8v2"/>',
+  bed:'<path d="M3 20V8M3 14h18v6M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="2"/><circle cx="17" cy="5" r="2"/><path d="M17 4v2M16 5h2"/>',
+  hands:'<path d="M12 3l5 2v4c0 3-2.3 5-5 6-2.7-1-5-3-5-6V5z"/><path d="M10 9l1.5 1.5L14 8"/><path d="M3 15l3 5h5M21 15l-3 5h-5"/>',
+  elder:'<circle cx="8" cy="5" r="2"/><circle cx="16" cy="5" r="2"/><path d="M8 7v6l-2 8M8 13l2 8M16 7v6l-2 8M16 13l2 8M5 10l3-1 3 1M13 10h6v11"/>',
+  bag:'<rect x="6" y="3" width="12" height="15" rx="2"/><path d="M12 18v3M9 6h6"/><path d="M12 14s-3-1.8-3-4a1.6 1.6 0 0 1 3-.8 1.6 1.6 0 0 1 3 .8c0 2.2-3 4-3 4z"/>',
+  tubes:'<path d="M6 3h4v15a2 2 0 0 1-4 0zM13 3h4v15a2 2 0 0 1-4 0z"/><path d="M6 8h4M13 11h4"/><circle cx="20.5" cy="14" r="1.5"/>',
+  report:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v2h6V3M8 17v-3M12 17v-6M16 17v-4"/>',
+  icu:'<path d="M3 20V9M3 15h14v5M17 15v-3H9"/><path d="M3 5h3l1-2 2 4 1-2h2"/><path d="M19 3v18M17 5h4"/>',
+  nurse2:'<path d="M8 6.5 12 4l4 2.5V9H8z"/><path d="M8 9a4 4 0 0 0 8 0"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/><path d="M15 17v4M13 19h4"/>',
+  lungs:'<path d="M12 3v8M12 11c-1 1-3 1-4 0M12 11c1 1 3 1 4 0"/><path d="M8 7c-3 1-5 5-5 10 0 2 2 3 4 2l1-1V7zM16 7c3 1 5 5 5 10 0 2-2 3-4 2l-1-1V7z"/>',
+  doc:'<circle cx="12" cy="6" r="3"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/><path d="M9 14v3a2 2 0 0 0 4 0M15 14v2"/><circle cx="15" cy="17" r="1"/>'
+};
+const $=(s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const svg=k=>`<svg viewBox="0 0 24 24">${I[k]||''}</svg>`;
+
+$('#yr').textContent=new Date().getFullYear();
+$('#svcList').innerHTML=SERVICES.map(s=>`<div class="svc"><div class="top">${svg(s.icon)}</div><h3>${esc(s.title)}</h3><div class="heart"><span></span>♥<span></span></div>
+  <ul>${s.items.map(([ic,t])=>`<li><span class="ic">${svg(ic)}</span>${esc(t)}</li>`).join('')}</ul></div>`).join('');
+$('#inqSvc').innerHTML='<option value="">Not sure / need advice</option>'+SERVICES.map(s=>`<optgroup label="${esc(s.title)}">${s.items.map(i=>`<option>${esc(i[1])}</option>`).join('')}</optgroup>`).join('');
+const inqPick=FileUI.picker($('#inqFiles'),{max:3,label:'Attach prescription / reports',hint:'Optional · up to 3 files, 5 MB each'});
+
+/* logged-in state in the nav; an installed app opens straight to the account */
+function paintNav(){
+  const m=Store.me();
+  $('#navAuth').innerHTML = m ? `<a class="btn sm" href="${Store.homeFor(m.role)}">${m.role==='admin'?'Office board':'My account'}</a>` : `<button class="btn sm" data-open-login>Log in</button>`;
+  if(m && NEXT){ location.replace(NEXT); return; }
+  if(m && (new URLSearchParams(location.search).has('app') || JHInstall.standalone()) && !location.hash) location.replace(Store.homeFor(m.role));
+}
+Store.init().then(paintNav);
+
+/* enquiry */
+$('#inqForm').addEventListener('submit',async e=>{
+  e.preventDefault(); const f=new FormData(e.target); const box=$('#inqMsg'); const btn=$('button[type=submit]',e.target); btn.disabled=true;
+  btn.textContent= inqPick.files().length ? 'Sending files…' : 'Sending…';
+  try{ const r=await Store.addInquiry({...Object.fromEntries(f), files:inqPick.files()}); e.target.reset(); inqPick.clear();
+    box.innerHTML=`<div class="okmsg">Thank you. Your enquiry has reached our care team and we will call you back soon.${r.failed.length?`<br><small>Some files could not be attached: ${esc(r.failed.join('; '))}</small>`:''}</div>`; }
+  catch(err){ box.innerHTML=`<div class="err">${esc(err.message)}</div>`; }
+  btn.disabled=false; btn.textContent='Send enquiry';
+});
+
+/* after logging in from a nurse profile, go back there */
+const NEXT=(()=>{ const n=new URLSearchParams(location.search).get('next')||''; return /^nurse\.html\?n=[\w-]+$/.test(n)?n:''; })();
+/* auth modal */
+function openAuth(mode='login', staff=false){
+  $('#authBg').classList.remove('hidden'); setMode(mode);
+  $('#authTitle').textContent = staff ? 'Staff & admin login' : (mode==='signup'?'Create a patient account':'Welcome back');
+  $('.seg',$('#authBg')).classList.toggle('hidden', staff);
+  $((mode==='signup'?'#signupF':'#loginF')+' input').focus();
+}
+function setMode(m){ $$('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m)); $('#loginF').classList.toggle('hidden',m!=='login'); $('#signupF').classList.toggle('hidden',m!=='signup'); $$('.msg').forEach(x=>x.innerHTML=''); if(!$('.seg').classList.contains('hidden')) $('#authTitle').textContent= m==='signup'?'Create a patient account':'Welcome back'; }
+document.addEventListener('click',e=>{
+  const o=e.target.closest('[data-open-login]'); if(o){ e.preventDefault(); if(Store.me()){ location.href=Store.homeFor(Store.me().role); return; } openAuth(o.dataset.mode||'login', 'staff' in o.dataset); }
+  if(e.target.closest('[data-close]') || e.target.id==='authBg') $('#authBg').classList.add('hidden');
+  const sb=e.target.closest('.seg button'); if(sb) setMode(sb.dataset.m);
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('#authBg').classList.add('hidden'); });
+$('#loginF').addEventListener('submit',async e=>{
+  e.preventDefault(); const f=new FormData(e.target); const msg=$('.msg',e.target); const btn=$('button[type=submit]',e.target);
+  btn.disabled=true; msg.innerHTML='';
+  try{ const m=await Store.login(f.get('id'),f.get('pw')); location.href=NEXT||Store.homeFor(m.role); }
+  catch(err){ msg.innerHTML=`<div class="err">${esc(err.message)}</div>`; btn.disabled=false; }
+});
+$('#signupF').addEventListener('submit',async e=>{
+  e.preventDefault(); const f=new FormData(e.target); const msg=$('.msg',e.target); const btn=$('button[type=submit]',e.target);
+  btn.disabled=true; msg.innerHTML='';
+  try{ await Store.signupPatient({name:f.get('name'),phone:f.get('phone'),email:f.get('email'),address:f.get('address'),password:f.get('pw')}); location.href=NEXT||'portal.html'; }
+  catch(err){ msg.innerHTML=`<div class="err">${esc(err.message)}</div>`; btn.disabled=false; }
+});
+if(location.hash==='#login') openAuth('login'); if(location.hash==='#signup') openAuth('signup');
+</script>
+</body>
+</html>

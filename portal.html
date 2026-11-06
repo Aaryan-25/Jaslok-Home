@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Account · Jaslok Homecare</title>
+<meta name="theme-color" content="#2F4A3A">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="icons/icon-192.png" alt="">Jaslok Homecare</a>
+    <span class="spacer"></span>
+    <div class="who" id="who"></div>
+    <button class="btn sm hidden" data-install title="Install as an app on this phone">⤓ Install app</button>
+    <button class="btn sm" id="logout">Log out</button>
+  </div>
+  <div class="wrap"><nav class="ptabs" id="ptabs"></nav></div>
+</div>
+<main class="portal"><div class="wrap" id="page"></div></main>
+<div id="toast"></div>
+<div id="modal"></div>
+
+<script src="js/config.js"></script>
+<script src="js/store.js"></script>
+<script src="js/common.js"></script>
+<script src="vendor/qrcode.js"></script>
+<script>
+"use strict";
+const $=(s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtDate=iso=>{ if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||'')) return iso||'—'; const [y,m,d]=iso.split('-'); return `${+d} ${MON[+m-1]} ${y}`; };
+const inr=v=> v===null||v===undefined ? '—' : '₹'+Math.round(v).toLocaleString('en-IN');
+const when=t=>{ const d=new Date(t); const s=Math.round((Date.now()-t)/60000); if(s<1) return 'just now'; if(s<60) return s+' min ago'; if(s<1440 && d.getDate()===new Date().getDate()) return 'today '+d.toTimeString().slice(0,5); return `${d.getDate()} ${MON[d.getMonth()]} ${d.toTimeString().slice(0,5)}`; };
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('show'),2400); }
+
+let ME=null;
+
+const KINDS = {
+  patient:[['query','Query'],['feedback','Feedback'],['report-staff','Report a staff member'],['other','Something else']],
+  staff:[['handover','Handover note for the next nurse'],['patient-update','Patient update'],['alert','Alert (urgent)'],['query','Query']]
+};
+const KIND_LABEL = {query:'Query',feedback:'Feedback','report-staff':'Staff report',other:'Message',handover:'Handover note','patient-update':'Patient update',alert:'Alert',notice:'Notice',message:'Message from office',inquiry:'Inquiry'};
+const PAGES = {
+  patient:[['home','My care'],['history','History'],['billing','Billing'],['messages','Messages'],['account','Account']],
+  staff:[['duties','My duties'],['shared','Shared patient notes'],['messages','Messages'],['earnings','Billing & income'],['account','Account']]
+};
+let page = (location.hash||'').slice(1); let BOARD=null, CASES=[];
+
+function payBadge(p){ return `<span class="badge ${p==='Paid'?'green':p==='Waived'?'grey':p==='Part paid'?'amber':'red'}">${esc(p)}</span>`; }
+function caseBadge(c){ if(c.ongoing) return `<span class="badge green">Ongoing</span>`; if(c.upcoming) return `<span class="badge blue">Starts ${esc(fmtDate(c.start))}</span>`; if(c.enquiry) return `<span class="badge amber">Inquiry</span>`; return `<span class="badge grey">${esc(c.status||'Completed')}</span>`; }
+
+async function loadBoard(){
+  ME=Store.me(); if(!ME) return location.replace('index.html#login');
+  BOARD=await Store.readBoard();
+  CASES=Store.casesForAccount(BOARD, ME).sort((a,b)=>String(b.start||'').localeCompare(String(a.start||'')));
+  CASES.forEach(c=>{ c.files=Store.caseFiles(c.id); });
+  Store.setMyCaseIds(CASES.map(c=>c.id));
+}
+function paintChrome(){
+  $('#who').innerHTML=`<b>${esc(ME.name)}</b>${ME.role==='staff'?'Staff · '+esc(ME.staffId):'Patient account'}`;
+  const unread=Store.visiblePosts().filter(p=>Store.isUnread(p)).length;
+  $('#ptabs').innerHTML=PAGES[ME.role].map(([k,l])=>`<button data-p="${k}" class="${k===page?'on':''}">${esc(l)}${k==='messages'&&unread?`<span class="dot">${unread}</span>`:''}</button>`).join('');
+}
+function render(){
+  if(!PAGES[ME.role].some(p=>p[0]===page)) page=PAGES[ME.role][0][0];
+  paintChrome();
+  ({home:pHome,history:pHistory,billing:pBilling,messages:pMessages,account:pAccount,duties:sDuties,shared:sShared,earnings:sEarnings})[page]();
+}
+$('#ptabs').addEventListener('click',e=>{ const b=e.target.closest('[data-p]'); if(!b) return; page=b.dataset.p; history.replaceState(null,'','#'+page); render(); scrollTo(0,0); });
+$('#logout').addEventListener('click',async()=>{ await Store.logout(); location.href='index.html'; });
+
+/* ================= patient ================= */
+function noCases(){ return `<div class="empty"><b>No care records linked to your account yet</b>
+  Records appear here once our office has your case on file under the mobile number <b>${esc(ME.phone)}</b>.<br>If you booked with a different number, send us a query from <a href="#messages" data-go="messages">Messages</a> and we will link it.</div>`; }
+function staffLinks(names){
+  return String(names).split(/[,;/&]+/).map(x=>x.trim()).filter(Boolean).map(n=>{ const k=n.toLowerCase();
+    const s=Store.nurses().find(x=>x.name.toLowerCase()===k||(x.staffId||'').toLowerCase()===k);
+    return s?`<a href="nurse.html?n=${encodeURIComponent(s.slug)}">${esc(s.name)}</a>`:esc(n); }).join(', ');
+}
+function caseCard(c, opts={}){
+  return `<div class="card">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h3 style="flex:1">${esc(c.service||'Homecare service')}</h3>${caseBadge(c)}</div>
+    <dl class="kv">
+      ${opts.patientName?`<dt>Patient</dt><dd><b>${esc(c.name)}</b></dd>`:''}
+      <dt>From</dt><dd>${esc(fmtDate(c.start))}</dd>
+      <dt>To</dt><dd>${esc(fmtDate(c.end))}${c.ongoing&&c.left!==null?` <span class="muted">(${c.left===0?'last day today':c.left+' days left'})</span>`:''}</dd>
+      ${c.staff&&!opts.hideStaff?`<dt>Staff</dt><dd>${staffLinks(c.staff)}</dd>`:''}
+      ${c.doctor?`<dt>Doctor</dt><dd>${esc(c.doctor)}</dd>`:''}
+      ${opts.locality&&c.locality?`<dt>Locality</dt><dd>${esc(c.locality)}</dd>`:''}
+      ${opts.phone&&c.phone?`<dt>Family phone</dt><dd><a href="tel:${esc(c.phone)}">${esc(c.phone)}</a></dd>`:''}
+      ${opts.remarks&&c.remarks?`<dt>Remarks</dt><dd>${esc(c.remarks)}</dd>`:''}
+      ${opts.bill?`<dt>Bill</dt><dd>${inr(c.total)} ${payBadge(c.pay)}</dd>`:''}
+    </dl>${c.files&&c.files.length?`<div class="muted" style="font-size:12.5px;margin-top:10px;font-weight:600">Documents</div>${FileUI.chips(c.files)}`:''}${opts.extra?opts.extra(c):''}</div>`;
+}
+function pHome(){
+  const cur=CASES.filter(c=>c.ongoing||c.upcoming);
+  const due=CASES.reduce((s,c)=>s+(c.balance&&c.pay!=='Waived'?c.balance:0),0);
+  const notices=Store.visiblePosts().filter(p=>p.kind==='notice').slice(0,3);
+  $('#page').innerHTML=`
+    <div class="pg-h"><div><h1>Hello, ${esc(ME.name.split(' ')[0])}</h1><p>Your care with Jaslok Homecare at a glance.</p></div></div>
+    ${notices.map(postHTML).join('')}${notices.length?'<div style="height:6px"></div>':''}
+    <div class="stats">
+      <div class="stat"><div class="l">Current services</div><div class="v">${cur.length}</div></div>
+      <div class="stat"><div class="l">Past services</div><div class="v">${CASES.length-cur.length}</div></div>
+      <div class="stat"><div class="l">Balance due</div><div class="v ${due?'':'muted'}">${inr(due)}</div><div class="s"><a href="#billing" data-go="billing">See bills</a></div></div>
+    </div>
+    <div class="sec-h">Current service</div>
+    ${!CASES.length?noCases(): cur.length? `<div class="cards">${cur.map(c=>caseCard(c,{bill:true})).join('')}</div>` : `<div class="empty"><b>No service running right now</b>Need care again? <a href="index.html#inquiry">Send an inquiry</a>.</div>`}
+    ${(d=>d.length?`<div class="sec-h">Documents from the office</div><div class="card">${d.map(c=>`<div style="margin-bottom:6px"><b style="font-size:14px">${esc(c.service||'Service')}</b> <span class="muted" style="font-size:13px">${esc(fmtDate(c.start))}</span>${FileUI.chips(c.files)}</div>`).join('')}</div>`:'')(CASES.filter(c=>c.files&&c.files.length))}
+    <div class="sec-h">Need something?</div>
+    <div class="row" style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" data-compose="query">Ask a question</button>
+      <button class="btn" data-compose="feedback">Give feedback</button>
+      <button class="btn danger" data-compose="report-staff">Report a concern about staff</button>
+    </div>`;
+}
+function pHistory(){
+  const past=CASES.filter(c=>!(c.ongoing||c.upcoming));
+  $('#page').innerHTML=`<div class="pg-h"><div><h1>Service history</h1><p>Every service on your account, newest first.</p></div></div>
+    ${!CASES.length?noCases(): `<div class="tblwrap"><table class="t"><thead><tr><th>Service</th><th>From</th><th>To</th><th class="n">Days</th><th>Staff</th><th>Status</th><th>Documents</th></tr></thead><tbody>
+    ${CASES.map(c=>`<tr><td><b>${esc(c.service||'—')}</b>${c.doctor?`<div class="muted" style="font-size:13px">${esc(c.doctor)}</div>`:''}</td><td>${esc(fmtDate(c.start))}</td><td>${esc(fmtDate(c.end))}</td><td class="n">${c.days??'—'}</td><td>${esc(c.staff||'—')}</td><td>${caseBadge(c)}</td><td>${FileUI.chips(c.files)||'<span class="muted">—</span>'}</td></tr>`).join('')}
+    </tbody></table></div>`}
+    ${past.length?'':''}`;
+}
+function pBilling(){
+  const tot=CASES.reduce((s,c)=>s+(c.total||0),0), paid=CASES.reduce((s,c)=>s+(c.paid|| (c.pay==='Paid'?c.total||0:0)),0);
+  const due=CASES.reduce((s,c)=>s+(c.balance&&c.pay!=='Waived'&&c.pay!=='Paid'?c.balance:0),0);
+  $('#page').innerHTML=`<div class="pg-h"><div><h1>Billing</h1><p>Amounts are worked out as days × daily rate. Contact the office if anything looks wrong.</p></div></div>
+    ${!CASES.length?noCases():`
+    <div class="stats">
+      <div class="stat"><div class="l">Total billed</div><div class="v">${inr(tot)}</div></div>
+      <div class="stat"><div class="l">Paid</div><div class="v" style="color:var(--ok)">${inr(paid)}</div></div>
+      <div class="stat"><div class="l">Balance due</div><div class="v" style="color:${due?'var(--danger)':'inherit'}">${inr(due)}</div></div>
+    </div>
+    <div class="tblwrap"><table class="t"><thead><tr><th>Service</th><th>Period</th><th class="n">Days</th><th class="n">Rate / day</th><th class="n">Amount</th><th class="n">Paid</th><th>Status</th></tr></thead><tbody>
+    ${CASES.map(c=>`<tr><td><b>${esc(c.service||'—')}</b></td><td>${esc(fmtDate(c.start))} – ${esc(fmtDate(c.end))}</td><td class="n">${c.days??'—'}</td><td class="n">${inr(c.rate)}</td><td class="n"><b>${inr(c.total)}</b></td><td class="n">${c.paid!==null?inr(c.paid):c.pay==='Paid'?inr(c.total):'—'}</td><td>${payBadge(c.pay)}</td></tr>`).join('')}
+    </tbody></table></div>
+    <p class="muted" style="font-size:13.5px">Questions about a bill? <a href="#" data-compose="query">Ask the office</a>.</p>`}`;
+}
+
+/* ================= staff ================= */
+function sharedFor(caseId){ return Store.visiblePosts().filter(p=>p.shared&&p.caseId===caseId); }
+function sDuties(){
+  const S=Store.settings(); const on=CASES.filter(c=>c.ongoing), up=CASES.filter(c=>c.upcoming);
+  const city=S.city||'Mumbai';
+  const dir=c=>{ const q=[c.locality,city].filter(Boolean).join(', '); return c.locality?`<a class="btn sm primary" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}">🧭 Directions</a>`:''; };
+  const extra=c=>{ const n=sharedFor(c.id).length; return `<div class="duty-acts">${dir(c)}
+      <button class="btn sm" data-compose="handover" data-case="${c.id}">Handover note</button>
+      <button class="btn sm" data-compose="alert" data-case="${c.id}">Alert office</button>
+      ${n?`<button class="btn sm" data-go="shared">${n} shared note${n>1?'s':''}</button>`:''}</div>`; };
+  const opts={patientName:true,hideStaff:false,locality:true,phone:S.staffSeesPatientPhone,remarks:true,extra};
+  $('#page').innerHTML=`<div class="pg-h"><div><h1>My duties</h1><p>Cases the office has assigned to you.</p></div></div>
+    ${Store.visiblePosts().filter(p=>p.kind==='notice').slice(0,3).map(postHTML).join('')}
+    <div class="sec-h">Ongoing (${on.length})</div>
+    ${on.length?`<div class="cards">${on.map(c=>caseCard(c,opts)).join('')}</div>`:`<div class="empty"><b>No ongoing duty</b>New assignments from the office appear here.</div>`}
+    ${up.length?`<div class="sec-h">Upcoming (${up.length})</div><div class="cards">${up.map(c=>caseCard(c,opts)).join('')}</div>`:''}`;
+}
+function sShared(){
+  const posts=Store.visiblePosts().filter(p=>p.shared&&p.caseId);
+  $('#page').innerHTML=`<div class="pg-h"><div><h1>Shared patient notes</h1><p>Handover notes and patient updates the office has shared for your patients.</p></div></div>
+    ${posts.length?posts.map(postHTML).join(''):`<div class="empty"><b>Nothing shared yet</b>When a nurse sends a handover note and the office approves it, it shows up here for the next nurse on that patient.</div>`}`;
+  bindPosts();
+}
+function sEarnings(){
+  const S=Store.settings(); const rate=ME.dailyRate;
+  const rows=CASES.filter(c=>!c.enquiry).map(c=>({c, d:c.daysSoFar??0, earn: rate!==null? (c.daysSoFar??0)*rate : null}));
+  const ym=Store.isoToday().slice(0,7);
+  const monthDays=CASES.reduce((s,c)=>{ if(!c.start) return s; let n=0; const st=new Date(c.start), en=new Date(Math.min(new Date(c.end||Store.isoToday()), new Date(Store.isoToday()))); for(let d=new Date(st); d<=en; d.setDate(d.getDate()+1)){ if(d.toISOString().slice(0,7)===ym) n++; } return s+n; },0);
+  const total=rows.reduce((s,r)=>s+(r.earn||0),0), paid=rows.filter(r=>r.c.payout==='Paid').reduce((s,r)=>s+(r.earn||0),0);
+  $('#page').innerHTML=`<div class="pg-h"><div><h1>Billing & income</h1><p>Earnings count the days worked so far on each duty, at your daily rate${rate!==null?` of <b>${inr(rate)}</b>`:''}.</p></div></div>
+    ${rate===null?`<div class="err" style="margin-bottom:14px">The office has not set your daily rate yet, so earnings cannot be worked out.</div>`:''}
+    <div class="stats">
+      <div class="stat"><div class="l">This month</div><div class="v">${rate!==null?inr(monthDays*rate):'—'}</div><div class="s">${monthDays} days worked</div></div>
+      <div class="stat"><div class="l">Earned to date</div><div class="v">${rate!==null?inr(total):'—'}</div></div>
+      <div class="stat"><div class="l">Paid out</div><div class="v" style="color:var(--ok)">${rate!==null?inr(paid):'—'}</div></div>
+      <div class="stat"><div class="l">Pending payout</div><div class="v">${rate!==null?inr(total-paid):'—'}</div></div>
+    </div>
+    ${rows.length?`<div class="tblwrap"><table class="t"><thead><tr><th>Patient</th><th>Service</th><th>Period</th><th class="n">Days worked</th><th class="n">My earnings</th><th>Payout</th>${S.staffSeesPatientBilling?'<th class="n">Patient bill</th><th>Patient payment</th>':''}</tr></thead><tbody>
+      ${rows.map(({c,d,earn})=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.service)}</td><td>${esc(fmtDate(c.start))} – ${esc(fmtDate(c.end))}</td><td class="n">${d}</td><td class="n"><b>${inr(earn)}</b></td><td><span class="badge ${c.payout==='Paid'?'green':'amber'}">${esc(c.payout)}</span></td>
+        ${S.staffSeesPatientBilling?`<td class="n">${inr(c.total)}</td><td>${payBadge(c.pay)}</td>`:''}</tr>`).join('')}
+    </tbody></table></div>`:`<div class="empty"><b>No duties yet</b></div>`}`;
+}
+
+/* ================= messages (both roles) ================= */
+function postHTML(p){
+  const mine=p.from.id===ME.id, unread=Store.isUnread(p);
+  const to = p.to==='everyone'?'Everyone':p.to==='patients'?'All patients':p.to==='staffs'?'All staff':p.to===ME.id?'You':'Office';
+  const canReply = p.kind!=='notice' && (mine || p.to===ME.id);
+  return `<div class="post ${p.kind==='notice'?'notice':''} ${unread?'unread':''} ${p.urgent||p.kind==='alert'?'urgent':''}" data-post="${p.id}">
+    <div class="post-h"><span class="badge ${p.kind==='notice'?'amber':p.kind==='alert'?'red':'blue'}">${esc(KIND_LABEL[p.kind]||p.kind)}</span>
+      <span class="ti">${esc(p.subject||(p.caseLabel?p.caseLabel:''))}</span>
+      ${p.status==='resolved'?'<span class="badge green">Resolved</span>':''}
+      <span class="meta">${mine?'You':esc(p.from.role==='admin'?'Jaslok Homecare office':p.from.name)} → ${esc(mine?'Office':to)} · ${when(p.at)}</span></div>
+    ${p.caseLabel&&p.subject?`<div class="muted" style="font-size:13px;margin-top:4px">About: ${esc(p.caseLabel)}</div>`:''}
+    <div class="body">${esc(p.body)}</div>${FileUI.chips(p.files)}
+    ${p.replies.length?`<div class="replies">${p.replies.map(r=>`<div class="reply ${r.from.role==='admin'?'admin':''}"><div class="by"><b>${r.from.id===ME.id?'You':r.from.role==='admin'?'Office':esc(r.from.name)}</b> · ${when(r.at)}</div>${esc(r.body)}</div>`).join('')}</div>`:''}
+    ${canReply?`<form class="replybox" data-reply="${p.id}"><span data-clip="${p.id}"></span><input class="in" placeholder="Write a reply…" aria-label="Reply"><button class="btn sm primary">Send</button></form>`:''}
+  </div>`;
+}
+const CLIPS={};
+function initClips(){ $$('[data-clip]').forEach(el=>{ const id=el.dataset.clip; CLIPS[id]=CLIPS[id]||[]; FileUI.clip(el,CLIPS[id]); }); }
+function bindPosts(){
+  initClips();
+  const ids=$$('[data-post]').map(el=>el.dataset.post);
+  clearTimeout(bindPosts.t); bindPosts.t=setTimeout(()=>ids.forEach(id=>Store.markRead(id)),2500); // leave the "new" marker visible briefly
+}
+document.addEventListener('submit',async e=>{
+  const f=e.target.closest('[data-reply]'); if(!f) return; e.preventDefault(); const b=$('button',f); b.disabled=true;
+  const files=CLIPS[f.dataset.reply]||[]; if(files.length) b.textContent='Uploading…';
+  try{ await Store.reply(f.dataset.reply, $('input:not([type=file])',f).value, files); files.length=0; toast('Reply sent'); await loadBoard(); render(); }catch(err){ toast(err.message); b.disabled=false; b.textContent='Send'; }
+});
+function caseOptions(sel){ return `<option value="">— Not about a specific service —</option>`+CASES.map(c=>`<option value="${c.id}" ${c.id===sel?'selected':''}>${esc((ME.role==='staff'?c.name+' · ':'')+(c.service||'Service')+' · '+fmtDate(c.start))}</option>`).join(''); }
+function pMessages(){
+  const posts=Store.visiblePosts();
+  $('#page').innerHTML=`<div class="pg-h"><div><h1>Messages</h1><p>${ME.role==='staff'?'Send handover notes, alerts and queries to the office. Notices from the office appear here.':'Notices from Jaslok Homecare, and your conversations with our office.'}</p></div><span class="spacer"></span><button class="btn primary" data-compose="${KINDS[ME.role][0][0]}">New message</button></div>
+    <div id="feed">${posts.length?posts.map(postHTML).join(''):`<div class="empty"><b>No messages yet</b></div>`}</div>`;
+  bindPosts();
+}
+function openCompose(kind, caseId){
+  const kinds=KINDS[ME.role];
+  const staffNames=[...new Set(CASES.map(c=>c.staff).filter(Boolean).flatMap(s=>s.split(/[,;/&]+/).map(x=>x.trim())))];
+  $('#modal').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:520px"><button class="x" data-mclose>×</button>
+    <h2>Send to the office</h2><div class="muted" style="font-size:14px;margin-bottom:14px">The office will reply here${ME.role==='patient'?' and may call you':''}.</div>
+    <form id="compF" class="stack">
+      <label class="f">Type<select class="in" name="kind">${kinds.map(([k,l])=>`<option value="${k}" ${k===kind?'selected':''}>${l}</option>`).join('')}</select></label>
+      <label class="f">${ME.role==='staff'?'Patient':'Which service'}<select class="in" name="caseId">${caseOptions(caseId)}</select></label>
+      <label class="f hidden" id="staffPick">Staff member<input class="in" name="staffName" list="staffList" placeholder="Name of the staff member"><datalist id="staffList">${staffNames.map(n=>`<option>${esc(n)}</option>`).join('')}</datalist></label>
+      <label class="f">Subject<input class="in" name="subject" maxlength="120"></label>
+      <label class="f"><span id="bodyLbl">Message</span><textarea class="in" name="body" style="min-height:130px"></textarea></label>
+      <div id="compFiles"></div>
+      <div class="msg"></div>
+      <button class="btn primary">Send</button>
+    </form></div></div>`;
+  const f=$('#compF'); const sync=()=>{ const k=f.kind.value; $('#staffPick').classList.toggle('hidden',k!=='report-staff');
+    $('#bodyLbl').textContent = k==='handover'?'What should the next nurse know? (medicines given, vitals, diet, anything unusual)':k==='alert'?'What happened? The office sees this as urgent.':k==='report-staff'?'What happened, and when?':'Message'; };
+  const pick=FileUI.picker($('#compFiles'),{max:5,label:ME.role==='staff'?'Attach photos / documents':'Attach prescription, report or photo'});
+  f.kind.addEventListener('change',sync); sync(); f.subject.focus();
+  f.addEventListener('submit',async e=>{ e.preventDefault(); const k=f.kind.value; const c=CASES.find(x=>x.id===f.caseId.value); const sb=$('button.primary',f);
+    if(k==='handover' && !c){ $('.msg',f).innerHTML='<div class="err">Pick the patient this handover is for.</div>'; return; }
+    sb.disabled=true; if(pick.files().length) sb.textContent='Uploading files…';
+    try{ await Store.addPost({files:pick.files(), kind:k, subject: f.subject.value || (k==='report-staff'&&f.staffName.value? 'About '+f.staffName.value : ''), body:(k==='report-staff'&&f.staffName.value?`Staff member: ${f.staffName.value}\n\n`:'')+f.body.value,
+      caseId:c?c.id:null, caseLabel:c?`${c.name} · ${c.service}`:'', urgent:k==='alert'});
+      $('#modal').innerHTML=''; toast('Sent to the office'); page='messages'; history.replaceState(null,'','#messages'); await loadBoard(); render(); }
+    catch(err){ $('.msg',f).innerHTML=`<div class="err">${esc(err.message)}</div>`; sb.disabled=false; sb.textContent='Send'; } });
+}
+document.addEventListener('click',e=>{
+  const c=e.target.closest('[data-compose]'); if(c){ e.preventDefault(); openCompose(c.dataset.compose, c.dataset.case); return; }
+  const g=e.target.closest('[data-go]'); if(g){ e.preventDefault(); page=g.dataset.go; history.replaceState(null,'','#'+page); render(); scrollTo(0,0); return; }
+  if(e.target.closest('[data-mclose]') || e.target.classList.contains('modal-bg')) $('#modal').innerHTML='';
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && !$('#forcePw')) $('#modal').innerHTML=''; });
+
+/* ================= account ================= */
+function pAccount(){
+  $('#page').innerHTML=`<div class="pg-h"><div><h1>Account</h1></div></div>
+    <div class="cards">
+      <div class="card"><h3>Your details</h3><dl class="kv">
+        <dt>Name</dt><dd>${esc(ME.name)}</dd>
+        ${ME.role==='staff'?`<dt>Staff ID</dt><dd>${esc(ME.staffId)}</dd><dt>Daily rate</dt><dd>${inr(ME.dailyRate)}</dd>`:''}
+        <dt>Mobile</dt><dd>${esc(ME.phone||'—')}</dd>${ME.email?`<dt>Email</dt><dd>${esc(ME.email)}</dd>`:''}
+        ${ME.address?`<dt>Address</dt><dd>${esc(ME.address)}</dd>`:''}</dl>
+        <p class="muted" style="font-size:13.5px;margin-bottom:0">To change these, send a query to the office.</p></div>
+      ${ME.role==='staff'&&ME.slug?`<div class="card"><h3>My public profile</h3><p class="muted" style="font-size:13.5px;margin:6px 0 10px">This is what patients see when they scan the QR code on your card. The office keeps it up to date.</p>
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><div style="border:1px solid var(--line);border-radius:12px;padding:6px;background:#fff">${JHQR.svg(Store.profileUrl(ME.slug),132)}</div>
+        <div class="stack" style="gap:8px"><a class="btn primary" href="nurse.html?n=${encodeURIComponent(ME.slug)}" target="_blank">Open my profile</a><button class="btn" id="cpLink">Copy link</button></div></div></div>`:''}
+      <div class="card"><h3>Change password</h3>${pwForm()}</div>
+    </div>`;
+  bindPwForm(false);
+  const cp=$('#cpLink'); if(cp) cp.addEventListener('click',()=>{ navigator.clipboard&&navigator.clipboard.writeText(Store.profileUrl(ME.slug)); toast('Link copied'); });
+}
+function pwForm(){ return `<form id="pwF" class="stack" style="margin-top:12px">
+  <label class="f">Current password<input class="in" type="password" name="old" autocomplete="current-password"></label>
+  <label class="f">New password<small>At least 8 characters, with letters and a number.</small><input class="in" type="password" name="n1" autocomplete="new-password"></label>
+  <label class="f">New password again<input class="in" type="password" name="n2" autocomplete="new-password"></label>
+  <div class="msg"></div><button class="btn primary">Save new password</button></form>`; }
+function bindPwForm(forced){
+  const f=$('#pwF'); f.addEventListener('submit',async e=>{ e.preventDefault();
+    if(f.n1.value!==f.n2.value){ $('.msg',f).innerHTML='<div class="err">The two new passwords do not match.</div>'; return; }
+    try{ await Store.changePassword(f.old.value,f.n1.value); f.reset(); toast('Password changed'); ME=Store.me(); if(forced){ $('#modal').innerHTML=''; } }
+    catch(err){ $('.msg',f).innerHTML=`<div class="err">${esc(err.message)}</div>`; } });
+}
+function forceChange(){
+  $('#modal').innerHTML=`<div class="modal-bg" id="forcePw"><div class="modal"><h2>Set your own password</h2>
+    <div class="muted" style="font-size:14px">You are using the password the office gave you. Please choose your own before continuing.</div>${pwForm()}</div></div>`;
+  bindPwForm(true);
+}
+
+/* ================= live updates ================= */
+let pending=false;
+function refreshSoon(){ if(pending) return; pending=true; setTimeout(async()=>{ pending=false; if(!Store.me()) return location.replace('index.html#login');
+  const typing=document.activeElement && document.activeElement.closest('input,textarea,select') ; if(typing||$('#modal').innerHTML){ paintChrome(); return; }
+  const y=scrollY; await loadBoard(); render(); scrollTo(0,y); },150); }
+
+(async function boot(){
+  $('#page').innerHTML='<p class="muted">Loading…</p>';
+  try{ await Store.refresh(); }catch(e){ $('#page').innerHTML=`<div class="err">${esc(e.message)}</div>`; return; }
+  ME=Store.me(); if(!ME) return location.replace('index.html#login'); if(ME.role==='admin') return location.replace('admin.html');
+  await loadBoard(); render(); if(ME.mustChange) forceChange();
+  Store.onChange(refreshSoon); Store.startPolling(20000);
+})();
+</script>
+</body>
+</html>
