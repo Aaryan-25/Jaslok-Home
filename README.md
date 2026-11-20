@@ -1,4 +1,59 @@
-# Jaslok@Home — website, patient & staff portal, office board
+<p align="center"><img src="media/og.jpg" alt="Jaslok@Home: map with nearest-nurse suggestions" width="100%"></p>
+
+<h1 align="center">Jaslok@Home Care Platform</h1>
+<p align="center"><b>A hospital information system (HMIS), rebuilt for care delivered at home.</b><br>
+Patient registration · map-based nurse rostering · billing · staff ledger · patient &amp; nurse apps · WhatsApp · MIS dashboard</p>
+
+<p align="center">
+<a href="https://aaryan-25.github.io/Jaslok-Home/about.html"><b>📖 About &amp; one-minute video</b></a> &nbsp;·&nbsp;
+<a href="https://aaryan-25.github.io/Jaslok-Home/"><b>🌐 Website</b></a> &nbsp;·&nbsp;
+<a href="https://aaryan-25.github.io/Jaslok-Home/admin.html?demo=admin"><b>▶ Live demo (office)</b></a> &nbsp;·&nbsp;
+<a href="https://aaryan-25.github.io/Jaslok-Home/portal.html?demo=patient">Patient app</a> &nbsp;·&nbsp;
+<a href="https://aaryan-25.github.io/Jaslok-Home/portal.html?demo=staff">Nurse app</a>
+</p>
+
+<p align="center"><a href="https://aaryan-25.github.io/Jaslok-Home/about.html"><img src="media/walkthrough-poster.jpg" alt="Watch the one-minute walkthrough" width="80%"></a><br><sub>▶ Click to watch the walkthrough. All data in the demo is fictional.</sub></p>
+
+## Why it exists
+Home-care services usually run on phone calls, WhatsApp chats and separate Excel sheets. A hospital has an HMIS; a home-care service rarely does, even though it needs the same things (registration, scheduling, billing, HR and feedback) across a "ward" spread over a whole city. Jaslok@Home puts all of it on **one record per case**, with a separate simple app for the office, the nurse and the family.
+
+## HMIS modules, adapted for home care
+| HMIS module | In Jaslok@Home |
+|---|---|
+| Front office / enquiries (CRM) | Website enquiry form with prescription upload, "Request this nurse", an enquiry inbox, and one-click conversion to a case |
+| Patient registration (UHID) | Families register with their mobile number; all their cases link automatically |
+| Episode of care (like ADT) | Case cards with a clear life-cycle: Enquiry → Active → Recovered / Sent home / Closed |
+| Rostering & allocation | **Live map** of patients and nurses, with the nearest *free* nurse suggested and assignment in one click |
+| Nursing notes & handover | Handover notes, patient updates and alerts with photos, shared with the next nurse |
+| Billing & receivables | Days × rate billing, payment status, balances, WhatsApp payment reminders |
+| HR & payroll inputs | A **staff ledger** that fills itself: days worked, earnings, paid and pending payouts, duty history |
+| Medical records / documents | Bills, care plans and reports per case, each with who-can-see-it control |
+| Patient portal & communication | Patient app, two-way messages, notices, **WhatsApp templates** |
+| Feedback & grievance | Nurse profiles (reached by a QR code) with verified patient reviews, and moderation by the office |
+| MIS & reports | One-page performance dashboard, plus Excel import/export of every sheet |
+| Inventory | Consumables and equipment-rental sheet |
+
+## Screens
+| | |
+|---|---|
+| <img src="media/board.webp" alt="Office board"><br><b>Office board</b>: the patient spreadsheet as cards | <img src="media/map-suggest.webp" alt="Map"><br><b>Map</b>: the nearest free nurse in one click |
+| <img src="media/dashboard.webp" alt="Dashboard"><br><b>MIS dashboard</b> in plain sentences | <img src="media/billing.webp" alt="Billing"><br><b>Billing</b>: payments, balances, payouts |
+| <img src="media/whatsapp.webp" alt="WhatsApp"><br><b>WhatsApp</b> templates filled in from the case | <img src="media/ledger.webp" alt="Staff ledger"><br><b>Staff ledger</b> that updates itself |
+
+<p align="center"><img src="media/phone-patient.webp" width="24%" alt="Patient app"> &nbsp; <img src="media/phone-nurse.webp" width="24%" alt="Nurse app"> &nbsp; <img src="media/phone-profile.webp" width="24%" alt="Nurse profile"><br><sub>Patient app · Nurse app · Public nurse profile (opened by the QR code on her business card)</sub></p>
+
+## Privacy by design
+Access rules are enforced **inside the database**, not just hidden on screen. Families see only their own cases, never internal remarks or what the nurse is paid. Nurses see only their assigned patients. One admin account manages everything. Passwords are stored hashed, with lock-out after repeated wrong attempts, and every case keeps an activity log. The public demo runs on fictional data in the visitor's browser and never touches real records.
+
+## Built with
+A browser app that installs on phones (PWA) · Supabase (PostgreSQL) with row-level security and checked database functions · Leaflet with OpenStreetMap / Ola Maps · WhatsApp click-to-chat links · hosted on GitHub Pages. No licence fees.
+
+**Designed & built by Aaryan Ahuja**, Master of Hospital Administration, Tata Institute of Social Sciences (TISS), Mumbai.
+
+---
+
+<details><summary><b>For administrators: setup and technical notes</b></summary>
+
 
 | Page | Who | What |
 |---|---|---|
@@ -50,3 +105,5 @@ The website's **Explore the platform** section opens a demo of every feature wit
 ## Rules
 - Never commit patient spreadsheets to the repository; GitHub Pages is public. The keys in `js/config.js` are meant to be public, but restrict the Ola Maps key to your site address in the Ola console.
 - After changing any file, raise `VERSION` in `service-worker.js` so installed copies update.
+
+</details>

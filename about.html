@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About the Platform · Jaslok@Home</title>
+<meta name="description" content="Jaslok@Home Care Platform: a home-care information system with patient registration, nurse rostering on a map, billing, staff ledger, patient and nurse apps, WhatsApp messaging and MIS dashboards.">
+<meta property="og:title" content="Jaslok@Home Care Platform">
+<meta property="og:description" content="The modules of a hospital information system, rebuilt for care delivered at home.">
+<meta property="og:image" content="media/og.jpg">
+<meta name="theme-color" content="#1F6F6B">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<style>
+body{background:#F7FBFA}
+.nav{background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.nav .wrap{display:flex;align-items:center;gap:6px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand svg{width:36px;height:36px}.brand .bt{font-family:"Libre Baskerville",Georgia,serif;font-weight:700;font-size:19px}
+.nav a.l{color:var(--ink2);text-decoration:none;font-weight:500;padding:8px 10px;border-radius:8px;font-size:14.5px}
+.nav a.l:hover{background:var(--accent-soft);color:var(--accent)}
+@media (max-width:900px){ .nav a.l{display:none} }
+@media (max-width:520px){ .nav .navweb{display:none} .brand .bt{font-size:17px} }
+.eyebrow{font-size:12.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent2);font-weight:700}
+h2.t{font-size:34px;letter-spacing:-.6px;line-height:1.15;margin:8px 0 12px}
+p.sub{color:var(--ink2);font-size:17px;max-width:720px;margin:0 0 30px}
+section{padding:76px 0}
+@media (max-width:700px){ section{padding:52px 0} h2.t{font-size:26px} }
+
+/* hero */
+.hero{background:radial-gradient(1200px 500px at 80% -10%,#D7ECE9 0,transparent 60%),linear-gradient(180deg,#EEF6F4,#F7FBFA);padding:60px 0 40px}
+.hero h1{font-size:52px;line-height:1.05;letter-spacing:-1.6px;margin:12px 0 16px;max-width:860px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .lead{font-size:19px;color:var(--ink2);max-width:760px;margin:0 0 24px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px}
+.chip{display:inline-flex;gap:6px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;color:var(--ink)}
+.chip b{color:var(--accent)}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+.ctas .btn{padding:13px 22px;font-size:15.5px;border-radius:12px}
+@media (max-width:700px){ .hero h1{font-size:34px;letter-spacing:-.8px} .hero .lead{font-size:16.5px} }
+.frame{background:#fff;border-radius:18px;box-shadow:0 30px 80px rgba(15,60,56,.22),0 0 0 1px rgba(15,60,56,.08);overflow:hidden}
+.frame .bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#EEF3F2;border-bottom:1px solid var(--line)}
+.frame .bar i{width:11px;height:11px;border-radius:50%;background:#E8A0A0}.frame .bar i:nth-child(2){background:#EBCB86}.frame .bar i:nth-child(3){background:#9FD19A}
+.frame .bar span{margin-left:10px;font-size:12.5px;color:var(--muted);background:#fff;border-radius:6px;padding:3px 12px;flex:1;max-width:420px}
+.frame video,.frame img{display:block;width:100%;height:auto;background:#0F2B29}
+.vidnote{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+
+/* problem → solution */
+.ps{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ps .c{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}
+.ps .c.bad{background:#FFF8F3;border-color:#F5DCC8}
+.ps h3{margin:0 0 12px;font-size:19px}
+.ps ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.ps li{display:grid;grid-template-columns:28px 1fr;gap:8px;font-size:15.5px;color:var(--ink2)}
+.ps li span:first-child{font-size:19px;line-height:1.3}
+@media (max-width:800px){ .ps{grid-template-columns:1fr} }
+
+/* HMIS map */
+.hmis{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.hmis table{border-collapse:collapse;width:100%}
+.hmis th{background:#163F3C;color:#E6F4F2;text-align:left;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;padding:14px 18px}
+.hmis td{padding:15px 18px;border-top:1px solid var(--line);vertical-align:top;font-size:15px}
+.hmis td:first-child{font-weight:700;width:28%;color:var(--ink)}
+.hmis td:first-child small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-top:2px}
+.hmis td:nth-child(2){color:var(--ink2)}
+.hmis td:last-child{width:17%;white-space:nowrap}
+.who{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;margin:0 3px 3px 0}
+.who.o{background:#E2F1EF;color:#1F6F6B}.who.p{background:#E0EDFF;color:#1E3A8A}.who.n{background:#FDECDD;color:#9A3412}.who.v{background:#F3E8FF;color:#6B21A8}
+@media (max-width:760px){ .hmis thead{display:none} .hmis tr{display:block;border-top:1px solid var(--line);padding:12px 16px} .hmis td{display:block;border:none;padding:3px 0;width:auto!important} }
+
+/* journey */
+.journey{display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative}
+.journey::before{content:"";position:absolute;left:8%;right:8%;top:38px;height:3px;background:linear-gradient(90deg,#2E8B85,#1F6F6B)}
+.step{text-align:center;position:relative;padding:0 8px}
+.step .ic{width:78px;height:78px;margin:0 auto 12px;border-radius:50%;background:#fff;border:3px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:30px;position:relative;z-index:1;box-shadow:0 6px 18px rgba(20,70,66,.15)}
+.step b{display:block;font-size:15.5px;margin-bottom:4px}
+.step span{font-size:13.5px;color:var(--ink2)}
+@media (max-width:900px){ .journey{grid-template-columns:1fr 1fr 1fr;row-gap:28px} .journey::before{display:none} }
+@media (max-width:520px){ .journey{grid-template-columns:1fr 1fr} }
+
+/* three apps */
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:start}
+.phone{background:#0F2B29;border-radius:38px;padding:11px;box-shadow:0 24px 60px rgba(15,60,56,.25);max-width:300px;margin:0 auto}
+.phone img{display:block;width:100%;border-radius:28px;aspect-ratio:390/844;object-fit:cover;object-position:top}
+.app h3{text-align:center;margin:18px 0 6px;font-size:18px}
+.app p{text-align:center;color:var(--ink2);font-size:14.5px;margin:0 auto;max-width:300px}
+@media (max-width:860px){ .apps{grid-template-columns:1fr} }
+
+/* gallery */
+.gal{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.shot{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);cursor:zoom-in;transition:transform .15s}
+.shot:hover{transform:translateY(-3px)}
+.shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left;border-bottom:1px solid var(--line)}
+.shot div{padding:14px 18px 16px}
+.shot b{display:block;font-size:16px;margin-bottom:3px}
+.shot span{color:var(--ink2);font-size:14px}
+.shot .tag{display:inline-block;font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 8px;margin-bottom:6px;letter-spacing:.3px;text-transform:uppercase}
+@media (max-width:760px){ .gal{grid-template-columns:1fr} }
+#lb{position:fixed;inset:0;background:rgba(8,22,21,.9);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+#lb.on{display:flex}#lb img{max-width:100%;max-height:88vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#lb p{position:absolute;bottom:14px;left:0;right:0;text-align:center;color:#E6F4F2;font-size:14.5px;margin:0}
+
+/* privacy + tech */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+.tile .i{font-size:26px}.tile b{display:block;font-size:16.5px;margin:8px 0 4px}.tile span{color:var(--ink2);font-size:14.5px}
+@media (max-width:860px){ .grid3{grid-template-columns:1fr} }
+.dark{background:#163F3C;color:#E6F4F2}
+.dark .eyebrow{color:#8FD3CC}.dark p.sub{color:#C4DEDA}.dark .tile{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}.dark .tile span{color:#C4DEDA}
+.card-strip{display:flex;justify-content:center;margin-top:30px}
+.card-strip img{max-width:640px;width:100%;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+
+/* final cta */
+.cta{text-align:center}
+.cta .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:820px;margin:26px auto 18px}
+.cta .roles a{background:var(--accent);color:#fff;text-decoration:none;border-radius:16px;padding:18px 10px;display:flex;flex-direction:column;gap:2px;align-items:center;box-shadow:0 8px 22px rgba(20,70,66,.18)}
+.cta .roles a:hover{background:#185956}.cta .roles span{font-size:26px}.cta .roles b{font-size:16px}.cta .roles small{opacity:.85;font-size:12.5px}
+@media (max-width:620px){ .cta .roles{grid-template-columns:1fr} }
+.credit{border-top:1px solid var(--line);margin-top:44px;padding-top:26px;display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap;text-align:left}
+.credit .av{width:54px;height:54px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center}
+.credit b{display:block;font-size:16px}.credit span{color:var(--ink2);font-size:14px}
+footer{background:#0F2B29;color:#B9D3CF;padding:26px 0;font-size:13px}
+footer .wrap{display:flex;gap:14px;flex-wrap:wrap}footer a{color:#fff}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#1F6F6B"/><path d="M10 24 24 12l14 12" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 22v13h18V22" stroke="#fff" stroke-width="2.6" fill="none" stroke-linejoin="round"/><path d="M24 33s-5-3-5-6.4a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1C29 30 24 33 24 33z" fill="#fff"/></svg><span class="bt">Jaslok@Home</span></a>
+  <span class="spacer"></span>
+  <a class="l" href="#problem">Why</a><a class="l" href="#modules">Modules</a><a class="l" href="#journey">Patient journey</a><a class="l" href="#screens">Screens</a><a class="l" href="#privacy">Privacy</a>
+  <a class="btn sm navweb" href="index.html">Website</a>
+  <a class="btn sm primary" href="#demo">▶ Try the demo</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Case study · Home-care information system</div>
+  <h1>A hospital information system, <em>rebuilt for care at home.</em></h1>
+  <p class="lead">Jaslok@Home brings patient registration, nurse rostering, billing, the staff ledger, patient communication and MIS reporting together in one place. Families, nurses and the office each get their own simple app, all working from the same record.</p>
+  <div class="chips">
+    <span class="chip">👥 <b>3</b> user roles</span><span class="chip">🧩 <b>12</b> HMIS-style modules</span><span class="chip">📱 Works on any phone</span><span class="chip">🗺 Map-based rostering</span><span class="chip">💬 WhatsApp built in</span><span class="chip">🔒 Role-based access</span>
+  </div>
+  <div class="ctas"><a class="btn primary" href="#demo">▶ Try the live demo</a><a class="btn" href="#modules">See the modules</a></div>
+  <div class="frame">
+    <div class="bar"><i></i><i></i><i></i><span>jaslok@home · one-minute walkthrough</span></div>
+    <video src="media/walkthrough.mp4" poster="media/walkthrough-poster.jpg" controls muted playsinline preload="metadata" aria-label="Walkthrough video of the platform"></video>
+  </div>
+  <p class="vidnote">A one-minute tour: website enquiry → the office board → map-based nurse allocation → WhatsApp → billing → the patient and nurse apps. All data shown is fictional.</p>
+</div></header>
+
+<section id="problem"><div class="wrap">
+  <div class="eyebrow">Why it was built</div>
+  <h2 class="t">Home care usually runs on phone calls, WhatsApp chats and spreadsheets.</h2>
+  <p class="sub">A hospital has an HMIS. A home-care service rarely does, even though it has the same needs: registration, scheduling, billing, staff management and feedback. The difference is that its "ward" is spread across the whole city.</p>
+  <div class="ps">
+    <div class="c bad"><h3>The usual way</h3><ul>
+      <li><span>📞</span><span>Enquiries arrive by phone and are written down by hand, and some are forgotten.</span></li>
+      <li><span>📊</span><span>Patient lists, nurse lists and bills live in separate Excel sheets.</span></li>
+      <li><span>🧭</span><span>Choosing a nurse for a new patient means calling around to see who is free and nearby.</span></li>
+      <li><span>💸</span><span>Payments, balances and nurse payouts are tracked separately, so they drift apart.</span></li>
+      <li><span>❓</span><span>Families have to call the office for every question: who is coming, how much is due.</span></li></ul></div>
+    <div class="c"><h3>With Jaslok@Home</h3><ul>
+      <li><span>📥</span><span>Every website enquiry lands in one inbox and becomes a case in one click.</span></li>
+      <li><span>🗂</span><span>One record per case feeds the patient's bill, the nurse's duty list and the office dashboard.</span></li>
+      <li><span>🗺</span><span>A live map shows every patient and nurse and suggests the nearest free nurse.</span></li>
+      <li><span>💳</span><span>Payment status, balances and nurse payouts sit in one table, and the staff ledger updates itself.</span></li>
+      <li><span>📱</span><span>Families see their care, bills and documents in their own app, and can message the office.</span></li></ul></div>
+  </div>
+</div></section>
+
+<section id="modules" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <div class="eyebrow">Modules</div>
+  <h2 class="t">Familiar HMIS modules, adapted for home care</h2>
+  <p class="sub">If you know hospital information systems, you'll recognise every module. Each one has been reshaped for a nurse who travels to the patient instead of a patient who comes to the bed.</p>
+  <div class="hmis"><table>
+    <thead><tr><th>HMIS module</th><th>In Jaslok@Home</th><th>Used by</th></tr></thead>
+    <tbody>
+      <tr><td>Front office &amp; enquiries<small>CRM / lead management</small></td><td>Website enquiry form (with prescription upload), "Request this nurse" from a nurse's profile, and an inquiry inbox where one click turns an enquiry into a case.</td><td><span class="who v">Visitor</span><span class="who o">Office</span></td></tr>
+      <tr><td>Patient registration<small>UHID / patient master</small></td><td>Families register with their mobile number, and every past and present case links to them automatically.</td><td><span class="who p">Patient</span><span class="who o">Office</span></td></tr>
+      <tr><td>Episode of care<small>like ADT for a ward</small></td><td>Each service is a case card with a clear life-cycle (Enquiry → Active → Recovered / Sent home / Closed), countdowns and renewal alerts.</td><td><span class="who o">Office</span></td></tr>
+      <tr><td>Rostering &amp; allocation<small>resource scheduling</small></td><td>A live city map of patients and nurses' homes. Click a patient to see the nearest <b>free</b> nurses and assign one in a click, or ask them on WhatsApp first.</td><td><span class="who o">Office</span></td></tr>
+      <tr><td>Nursing notes &amp; handover<small>clinical documentation</small></td><td>Nurses send handover notes, patient updates and urgent alerts, with photos. The office approves them and shares them with the next nurse on that patient.</td><td><span class="who n">Nurse</span><span class="who o">Office</span></td></tr>
+      <tr><td>Billing &amp; receivables<small>IP billing / AR</small></td><td>Days × rate billing, payment status, amount paid and balance, one-tap WhatsApp payment reminders, and an itemised bill view for the family.</td><td><span class="who o">Office</span><span class="who p">Patient</span></td></tr>
+      <tr><td>HR &amp; payroll inputs<small>attendance / payroll</small></td><td>A staff ledger that fills itself: days worked, earnings at each nurse's daily rate, paid and pending payouts, and full duty history.</td><td><span class="who o">Office</span><span class="who n">Nurse</span></td></tr>
+      <tr><td>Medical records<small>MRD / document management</small></td><td>Bills, care plans and reports attached to each case, each marked for the office only, the patient, the staff or both.</td><td><span class="who o">Office</span><span class="who p">Patient</span><span class="who n">Nurse</span></td></tr>
+      <tr><td>Patient portal &amp; communication</td><td>A patient app for current care, history, bills and documents. Two-way messages with attachments, notices, and WhatsApp templates for every common message.</td><td><span class="who p">Patient</span><span class="who o">Office</span></td></tr>
+      <tr><td>Feedback &amp; grievance<small>quality / patient experience</small></td><td>Star ratings and reviews on each nurse's public profile (only from logged-in patients, marked when verified), staff-concern reports, and moderation by the office.</td><td><span class="who p">Patient</span><span class="who o">Office</span></td></tr>
+      <tr><td>MIS &amp; reports</td><td>A one-page performance dashboard (revenue, cases, days of care, referral sources, renewals) with a plain-language summary, plus Excel import and export of every sheet.</td><td><span class="who o">Office</span></td></tr>
+      <tr><td>Inventory<small>consumables &amp; equipment</small></td><td>A consumables and equipment-rental sheet with stock, procurement cost and retail rate.</td><td><span class="who o">Office</span></td></tr>
+    </tbody></table></div>
+</div></section>
+
+<section id="journey"><div class="wrap">
+  <div class="eyebrow">Patient journey</div>
+  <h2 class="t">From the first call to the last bill, in one record</h2>
+  <p class="sub">Every step updates the same case, so the office, the nurse and the family always see the same thing.</p>
+  <div class="journey">
+    <div class="step"><div class="ic">📥</div><b>Enquiry</b><span>The family fills the website form or calls the coordinator.</span></div>
+    <div class="step"><div class="ic">🗂</div><b>Registration</b><span>The office accepts it and a case card is created.</span></div>
+    <div class="step"><div class="ic">🗺</div><b>Allocation</b><span>The map suggests the nearest free nurse.</span></div>
+    <div class="step"><div class="ic">🩺</div><b>Care at home</b><span>The nurse gets directions, notes and handovers on her phone.</span></div>
+    <div class="step"><div class="ic">💳</div><b>Billing</b><span>The bill, payments and the nurse's payout update together.</span></div>
+    <div class="step"><div class="ic">⭐</div><b>Feedback</b><span>The family rates the nurse; the office reviews it.</span></div>
+  </div>
+</div></section>
+
+<section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <div class="eyebrow">Three apps, one record</div>
+  <h2 class="t">Simple enough for a family member, complete enough for the office</h2>
+  <p class="sub">Nothing to install from an app store: each one opens in the phone's browser, and can be added to the home screen like an app.</p>
+  <div class="apps">
+    <div class="app"><div class="phone"><img src="media/phone-patient.webp" alt="Patient app showing current care, balance due and documents" loading="lazy"></div><h3>For families</h3><p>Who is coming and until when, bills and balance, documents from the office, and a way to ask a question or raise a concern.</p></div>
+    <div class="app"><div class="phone"><img src="media/phone-nurse.webp" alt="Nurse app showing today's duties with directions" loading="lazy"></div><h3>For nurses</h3><p>Today's duties with directions to the patient's home, notes shared by the office, handover and alert buttons, and earnings for each duty.</p></div>
+    <div class="app"><div class="phone"><img src="media/phone-profile.webp" alt="Public nurse profile with ratings and skills" loading="lazy"></div><h3>For the public</h3><p>Every nurse has a profile, reached by the QR code on her business card, showing her ratings, skills and languages. Families can request her by name.</p></div>
+  </div>
+</div></section>
+
+<section id="screens"><div class="wrap">
+  <div class="eyebrow">Screens</div>
+  <h2 class="t">A look inside the office</h2>
+  <p class="sub">Click any screen to enlarge it. Every name, number and bill shown is fictional demo data.</p>
+  <div class="gal">
+    <figure class="shot" style="margin:0" data-full="media/board.webp"><img src="media/board.webp" alt="Office board with patient case cards" loading="lazy"><div><span class="tag">Spreadsheet management</span><b>The office board</b><span>The patient spreadsheet shown as cards, with status colours, countdowns, filters, totals, and Excel import and export.</span></div></figure>
+    <figure class="shot" style="margin:0" data-full="media/map-suggest.webp"><img src="media/map-suggest.webp" alt="Map with nearest nurse suggestions" loading="lazy"><div><span class="tag">Rostering</span><b>Map &amp; nearest free nurse</b><span>Patients coloured by nurse, red when no nurse is assigned. Click a patient for the closest free nurses, then assign one or ask on WhatsApp.</span></div></figure>
+    <figure class="shot" style="margin:0" data-full="media/dashboard.webp"><img src="media/dashboard.webp" alt="MIS performance dashboard" loading="lazy"><div><span class="tag">MIS</span><b>Performance dashboard</b><span>Revenue, cases, days of care, top services and referral sources, summarised in plain sentences and ready to present.</span></div></figure>
+    <figure class="shot" style="margin:0" data-full="media/whatsapp.webp"><img src="media/whatsapp.webp" alt="WhatsApp message templates" loading="lazy"><div><span class="tag">Communication</span><b>WhatsApp in one click</b><span>Ready-made messages filled in from the case (visit reminders, renewals, payment reminders) and logged on the card.</span></div></figure>
+    <figure class="shot" style="margin:0" data-full="media/billing.webp"><img src="media/billing.webp" alt="Billing status table" loading="lazy"><div><span class="tag">Billing</span><b>Billing &amp; payouts</b><span>Payment status, amount paid, balance and nurse payout for every case, with a "Remind" button that drafts a polite WhatsApp.</span></div></figure>
+    <figure class="shot" style="margin:0" data-full="media/ledger.webp"><img src="media/ledger.webp" alt="Staff ledger" loading="lazy"><div><span class="tag">HR</span><b>Staff ledger that fills itself</b><span>Each nurse's current patients, days worked, earnings, payouts and duty history, kept up to date from the cases.</span></div></figure>
+    <figure class="shot" style="margin:0" data-full="media/accounts.webp"><img src="media/accounts.webp" alt="Account management" loading="lazy"><div><span class="tag">Administration</span><b>Accounts &amp; access</b><span>Create nurse logins, manage patient accounts, reset passwords and switch access off, plus a launcher for every feature.</span></div></figure>
+    <figure class="shot" style="margin:0" data-full="media/inbox.webp"><img src="media/inbox.webp" alt="Office inbox" loading="lazy"><div><span class="tag">Front office</span><b>One inbox for everything</b><span>Queries, feedback, staff reports, urgent alerts and handover notes, each with replies, attachments and a WhatsApp shortcut.</span></div></figure>
+  </div>
+</div></section>
+
+<section class="dark" id="privacy"><div class="wrap">
+  <div class="eyebrow">Privacy &amp; access</div>
+  <h2 class="t" style="color:#fff">Each person sees only what they need</h2>
+  <p class="sub">Access rules are enforced by the database itself, not just hidden on screen. This follows the principle of minimum necessary access used in hospital systems.</p>
+  <div class="grid3">
+    <div class="tile"><div class="i">🧑‍🦳</div><b>Families</b><span>See only their own cases, never internal remarks, costs or what the nurse is paid.</span></div>
+    <div class="tile"><div class="i">🩺</div><b>Nurses</b><span>See only the patients assigned to them. The office decides whether they see the family's phone number and bill.</span></div>
+    <div class="tile"><div class="i">🏥</div><b>Office</b><span>One admin account sees everything, manages access and can pull down any review.</span></div>
+    <div class="tile"><div class="i">🔐</div><b>Secure logins</b><span>Passwords are stored scrambled; repeated wrong passwords lock the account; new staff must set their own password.</span></div>
+    <div class="tile"><div class="i">📝</div><b>Audit trail</b><span>Every case card keeps a log of what changed and when, including WhatsApp messages sent.</span></div>
+    <div class="tile"><div class="i">🎭</div><b>Safe demo</b><span>The public demo runs on fictional data in the visitor's own browser and never touches real records.</span></div>
+  </div>
+  <div class="card-strip"><img src="media/card.webp" alt="Printable nurse business card with QR code" loading="lazy"></div>
+  <p style="text-align:center;color:#C4DEDA;font-size:14px;margin-top:12px">Each nurse's business card carries a QR code to her public profile, generated automatically when her login is created.</p>
+</div></section>
+
+<section id="tech"><div class="wrap">
+  <div class="eyebrow">Under the hood, in plain words</div>
+  <h2 class="t">Built to be cheap to run and easy to adopt</h2>
+  <div class="grid3">
+    <div class="tile"><div class="i">🌐</div><b>Runs in the browser</b><span>Works on any phone or computer. It can be installed to the home screen and keeps working briefly offline.</span></div>
+    <div class="tile"><div class="i">🗄</div><b>Secure cloud database</b><span>A PostgreSQL database (Supabase) with access rules written into the database itself.</span></div>
+    <div class="tile"><div class="i">💰</div><b>No licence fees</b><span>Hosted on free tiers (GitHub Pages and Supabase), with OpenStreetMap / Ola Maps for locations and WhatsApp links for messaging.</span></div>
+  </div>
+</div></section>
+
+<section class="cta" id="demo" style="background:linear-gradient(180deg,#F7FBFA,#E6F2F0)"><div class="wrap">
+  <div class="eyebrow">Try it yourself</div>
+  <h2 class="t">Open the live demo</h2>
+  <p class="sub" style="margin:0 auto">No login needed. Switch between the three views from the orange bar at the top. Everything is fictional, and nothing you change is saved.</p>
+  <div class="roles">
+    <a href="admin.html?demo=admin"><span>🏥</span><b>Office (admin)</b><small>Board, map, accounts, billing</small></a>
+    <a href="portal.html?demo=patient"><span>🧑‍🦳</span><b>Patient &amp; family</b><small>Care, bills, documents</small></a>
+    <a href="portal.html?demo=staff"><span>🩺</span><b>Nurse</b><small>Duties, directions, earnings</small></a>
+  </div>
+  <a class="btn" href="https://github.com/Aaryan-25/Jaslok-Home" target="_blank" rel="noopener">View the project on GitHub ↗</a>
+  <div class="credit"><div class="av">AA</div><div><b>Designed &amp; built by Aaryan Ahuja</b><span>Master of Hospital Administration, Tata Institute of Social Sciences (TISS), Mumbai</span></div></div>
+</div></section>
+
+<footer><div class="wrap"><span>© <span id="yr"></span> Jaslok@Home</span><span class="spacer"></span><a href="index.html">Website</a><a href="index.html#inquiry">Enquire</a><a href="#demo">Live demo</a></div></footer>
+<div id="lb" role="dialog" aria-label="Enlarged screenshot"><img alt=""><p></p></div>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+const lb=document.getElementById('lb');
+document.querySelectorAll('.shot').forEach(s=>s.addEventListener('click',()=>{ lb.querySelector('img').src=s.dataset.full; lb.querySelector('p').textContent=s.querySelector('b').textContent+' (fictional demo data)'; lb.classList.add('on'); }));
+lb.addEventListener('click',()=>lb.classList.remove('on')); document.addEventListener('keydown',e=>{ if(e.key==='Escape') lb.classList.remove('on'); });
+// play the walkthrough when it scrolls into view (muted, so browsers allow it)
+const v=document.querySelector('video'); if('IntersectionObserver' in window && v){ new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting&&v.paused&&!v.dataset.done){ v.play().catch(()=>{}); v.dataset.done=1; } }),{threshold:.5}).observe(v); }
+</script>
+</body>
+</html>

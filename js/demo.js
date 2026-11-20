@@ -129,7 +129,7 @@ function seed(){
   // board
   const rows=CASES.map(c=>{ const [nm,svc,loc,doc,off,days,rate,st,staff,pay,frac,payout,rem,ph,src]=c; const total=days*rate;
     return row({ 'Source':src,'Patient Name':nm,'Doctor':doc,'Service':svc,'Locality':loc,'Phone':phoneOf(ph),'Start Date':day(off),'End Date':day(off+days-1),'Days':days,'Rate':rate,'Total Amount':total,
-      'Case Type': /ICU|Ventilator|Critical/.test(svc)?'Critical':/Sample|tests/.test(svc)?'Diagnostics':'Nursing','Status':st,'Remarks':rem,'Assigned Staff':staff,'Payment Status':pay,'Amount Paid': frac? Math.round(total*frac):'', 'Staff Payout':payout },
+      'Case Type': (off>-10&&nm==='Asha Sample')||(/Long-term|Elderly|Ventilator/.test(svc)&&off<-10)||/Kiran|Tara|Leela/.test(nm)?'Renewal':'New','Status':st,'Remarks':rem,'Assigned Staff':staff,'Payment Status':pay,'Amount Paid': frac? Math.round(total*frac):'', 'Staff Payout':payout },
       [`Demo record (fictional)`]); });
   const staffRows=NURSES.map((n,i)=>row({ 'Staff Name':n[0],'Employee ID':n[1],'Department':/ICU|Critical/.test(n[6])?'Critical care':/Phleb/.test(n[6])?'Diagnostics':'Nursing','Shift Type':i%3===0?'12 h day':i%3===1?'12 h night':'24 h live-in','Status':'Active','Remarks':'' }));
   const cons=[['Nitrile gloves (box of 100)','Disposables','Box',260,380,42,''],['Disposable syringes 5 ml','Disposables','Pack of 100',420,600,18,''],['IV cannula 20G','Disposables','Piece',38,65,140,''],
