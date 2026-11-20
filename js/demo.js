@@ -15,7 +15,7 @@
    ===================================================================== */
 "use strict";
 (function(global){
-const FLAG='jh-demo', DBKEY='jh-demo-db-v1', TOKEN='jh-demo-token';
+const FLAG='jh-demo', DBKEY='jh-demo-db-v2', TOKEN='jh-demo-token';
 const qs=new URLSearchParams(location.search); const q=qs.get('demo');
 try{
   if(q==='off'){ sessionStorage.removeItem(FLAG); sessionStorage.removeItem(DBKEY); localStorage.removeItem(TOKEN); }
@@ -72,49 +72,49 @@ const PLACES={'Peddar Road':[18.9690,72.8090],'Breach Candy':[18.9719,72.8045],'
  'Matunga':[19.0270,72.8550],'Chembur':[19.0522,72.9005],'Powai':[19.1176,72.9060],'Colaba':[18.9067,72.8147],'Tardeo':[18.9700,72.8150],'Mahim':[19.0350,72.8400],'Lower Parel':[18.9950,72.8300],
  'Cuffe Parade':[18.9150,72.8200],'Goregaon West':[19.1630,72.8400],'Malad West':[19.1860,72.8350],'Kurla West':[19.0700,72.8800],'Ghatkopar East':[19.0790,72.9080],'Sion':[19.0390,72.8619],'Kemps Corner':[18.9620,72.8070]};
 const NURSES=[
- ['Anita D\'Souza','JH-101','Bandra West',1800,true,true,'Senior ICU Nurse','2019-06-01','Calm and meticulous. Ten years in critical care before moving to home ICU. Families say she explains every step.',['Ventilator care','Tracheostomy care','Central line care','Palliative care'],['English','Hindi','Konkani'],'Non-vegetarian','B.Sc Nursing, BLS & ACLS certified'],
- ['Ravi Kumar','JH-102','Dadar West',1500,false,false,'Staff Nurse','2021-02-15','Patient and punctual. Specialises in post-operative recovery and diabetic care for elderly patients.',['Wound dressing','Diabetic care','IV cannulation','Post-operative care'],['Hindi','Marathi','English'],'Vegetarian','GNM, BLS certified'],
- ['Priya Nair','JH-103','Chembur',1900,true,false,'Critical Care Nurse','2018-09-10','Experienced with cardiac patients and long ventilator stays. Trains our new nurses on monitoring equipment.',['Cardiac monitoring','Ventilator support','ABG sampling','BLS / ACLS'],['Malayalam','Hindi','English','Tamil'],'Non-vegetarian','M.Sc Nursing (Critical Care)'],
- ['Sunita Patil','JH-104','Matunga',1300,true,true,'Elder-care Nurse','2020-11-01','Gentle with patients living with dementia. Good at building daily routines with the family.',['Dementia care','Fall prevention','Bed-sore care','Feeding support'],['Marathi','Hindi'],'Vegetarian','ANM, Geriatric care course'],
- ['Joseph Mathew','JH-105','Andheri East',1500,false,false,'Staff Nurse (Male)','2022-04-20','Strong and steady. Often placed with patients who need help with lifting, mobility and catheter care.',['Catheter care','Mobility support','Post-stroke care','Physiotherapy assistance'],['Malayalam','English','Hindi'],'Non-vegetarian','GNM'],
- ['Farah Shaikh','JH-106','Mahim',1200,true,false,'Phlebotomist','2023-01-09','Quick and painless sample collection at home, including for children and elderly patients with difficult veins.',['Home sample collection','Paediatric draws','Cold-chain handling'],['Urdu','Hindi','English','Marathi'],'Non-vegetarian','DMLT'],
- ['Kavita Joshi','JH-107','Malad West',1450,true,true,'Staff Nurse','2021-08-16','Organised and cheerful. Looks after many post-surgery and stoma-care patients in the western suburbs.',['Stoma care','Post-surgery care','Medication management'],['Gujarati','Hindi','Marathi','English'],'Jain','GNM, BLS certified'],
- ['Deepak Yadav','JH-108','Kurla West',1700,false,false,'ICU Nurse','2020-03-02','Handles ventilator and tracheostomy patients at home; very good at teaching families suctioning and alarms.',['Ventilator support','Suctioning','NG tube care','Oxygen therapy'],['Hindi','Bhojpuri','English'],'Eggetarian','GNM, Critical care certificate']
+ ['Anita Demo','DEMO-101','Bandra West',1800,true,true,'Senior ICU Nurse','2019-06-01','Calm and meticulous. Ten years in critical care before moving to home ICU. Families say she explains every step.',['Ventilator care','Tracheostomy care','Central line care','Palliative care'],['English','Hindi','Konkani'],'Non-vegetarian','B.Sc Nursing, BLS & ACLS certified'],
+ ['Ravi Demo','DEMO-102','Dadar West',1500,false,false,'Staff Nurse','2021-02-15','Patient and punctual. Specialises in post-operative recovery and diabetic care for elderly patients.',['Wound dressing','Diabetic care','IV cannulation','Post-operative care'],['Hindi','Marathi','English'],'Vegetarian','GNM, BLS certified'],
+ ['Priya Demo','DEMO-103','Chembur',1900,true,false,'Critical Care Nurse','2018-09-10','Experienced with cardiac patients and long ventilator stays. Trains our new nurses on monitoring equipment.',['Cardiac monitoring','Ventilator support','ABG sampling','BLS / ACLS'],['Malayalam','Hindi','English','Tamil'],'Non-vegetarian','M.Sc Nursing (Critical Care)'],
+ ['Sunita Demo','DEMO-104','Matunga',1300,true,true,'Elder-care Nurse','2020-11-01','Gentle with patients living with dementia. Good at building daily routines with the family.',['Dementia care','Fall prevention','Bed-sore care','Feeding support'],['Marathi','Hindi'],'Vegetarian','ANM, Geriatric care course'],
+ ['Joseph Demo','DEMO-105','Andheri East',1500,false,false,'Staff Nurse (Male)','2022-04-20','Strong and steady. Often placed with patients who need help with lifting, mobility and catheter care.',['Catheter care','Mobility support','Post-stroke care','Physiotherapy assistance'],['Malayalam','English','Hindi'],'Non-vegetarian','GNM'],
+ ['Farah Demo','DEMO-106','Mahim',1200,true,false,'Phlebotomist','2023-01-09','Quick and painless sample collection at home, including for children and elderly patients with difficult veins.',['Home sample collection','Paediatric draws','Cold-chain handling'],['Urdu','Hindi','English','Marathi'],'Non-vegetarian','DMLT'],
+ ['Kavita Demo','DEMO-107','Malad West',1450,true,true,'Staff Nurse','2021-08-16','Organised and cheerful. Looks after many post-surgery and stoma-care patients in the western suburbs.',['Stoma care','Post-surgery care','Medication management'],['Gujarati','Hindi','Marathi','English'],'Jain','GNM, BLS certified'],
+ ['Deepak Demo','DEMO-108','Kurla West',1700,false,false,'ICU Nurse','2020-03-02','Handles ventilator and tracheostomy patients at home; very good at teaching families suctioning and alarms.',['Ventilator support','Suctioning','NG tube care','Oxygen therapy'],['Hindi','Bhojpuri','English'],'Eggetarian','GNM, Critical care certificate']
 ];
 // [patient, service, locality, doctor, start offset, days, rate, status, staff, payment, paid%, payout, remarks, phone#, source]
 const CASES=[
- ['Asha Kulkarni','Nursing care at home','Peddar Road','Dr. R. Mehta (demo)',-6,14,2400,'Active','Anita D\'Souza','Part paid',.5,'Pending','Insulin twice daily; daughter is main contact.',1,'Hospital referral'],
- ['Asha Kulkarni','Post-hospitalization support','Peddar Road','Dr. R. Mehta (demo)',-70,12,2200,'Recovered','Ravi Kumar','Paid',1,'Paid','Discharged after hip surgery; walking with support.',1,'Hospital referral'],
- ['Asha Kulkarni','Sample collection at home','Peddar Road','Dr. R. Mehta (demo)',-25,1,900,'Closed','Farah Shaikh','Paid',1,'Paid','HbA1c and lipid profile.',1,'Phone'],
- ['Vikram Bhosale','Ventilator support','Worli','Dr. S. Rao (demo)',-12,30,6500,'Active','Deepak Yadav, Priya Nair','Part paid',.4,'Pending','Day: Deepak, night: Priya. Family trained on alarms.',2,'Hospital referral'],
- ['Meenakshi Iyer','Elderly care','Matunga','Dr. K. Shah (demo)',-40,60,1600,'Active','Sunita Patil','Part paid',.6,'Pending','Mild dementia; prefers Tamil music in the evening.',3,'Website'],
- ['Rohan Mehta','Critical care nursing','Breach Candy','Dr. A. Kapoor (demo)',-3,10,4800,'Active','Priya Nair','Unpaid',0,'Pending','Post-cardiac surgery monitoring.',4,'Hospital referral'],
- ['Farida Khan','ICU setup at home','Bandra West','Dr. S. Rao (demo)',-2,21,7200,'Active','Anita D\'Souza','Part paid',.3,'Pending','Oxygen concentrator and monitor installed.',5,'Hospital referral'],
- ['Gopal Rane','Long-term care','Dadar West','Dr. K. Shah (demo)',-90,120,1400,'Active','Ravi Kumar','Part paid',.7,'Pending','Bed-bound; 2-hourly turning.',6,'Phone'],
- ['Nalini Desai','Nursing care at home','Malad West','Dr. P. Gupta (demo)',-4,7,2000,'Active','Kavita Joshi','Unpaid',0,'Pending','Stoma care and dressing.',7,'Website'],
- ['Harish Chandra','Post-hospitalization support','Andheri East','Dr. P. Gupta (demo)',-5,10,2000,'Active','Joseph Mathew','Paid',1,'Pending','Post-stroke; physiotherapy at 11 am daily.',8,'Hospital referral'],
- ['Shabnam Ali','Nursing care at home','Kurla West','Dr. A. Kapoor (demo)',-1,10,2000,'Active','','Unpaid',0,'Pending','URGENT: nurse not yet assigned.',9,'Website'],
- ['Kiran Malhotra','Elderly care','Juhu','Dr. K. Shah (demo)',-15,30,1600,'Active','Sunita Patil','Part paid',.5,'Pending','Lives alone; neighbour has spare key.',10,'Phone'],
- ['Tara Sequeira','Critical care nursing','Colaba','Dr. S. Rao (demo)',-8,14,4800,'Active','Deepak Yadav','Part paid',.5,'Pending','Tracheostomy; suction every 2 hours.',11,'Hospital referral'],
- ['Ajay Thakkar','Nursing care at home','Powai','Dr. P. Gupta (demo)',2,10,2200,'Active','','Unpaid',0,'Pending','Starts next week; prefers a male nurse.',12,'Website'],
- ['Leela Pinto','Long-term care','Santacruz West','Dr. K. Shah (demo)',4,30,1500,'Active','Kavita Joshi','Unpaid',0,'Pending','Family returning from abroad on start date.',13,'Phone'],
- ['Suresh Nambiar','ICU setup at home','Chembur','Dr. A. Kapoor (demo)',1,15,7000,'Active','Priya Nair','Unpaid',0,'Pending','Equipment delivery the day before.',14,'Hospital referral'],
- ['Neelam Gupta','Post-hospitalization support','Khar West','Dr. R. Mehta (demo)',-60,10,2200,'Recovered','Anita D\'Souza','Paid',1,'Paid','Recovered well after knee replacement.',15,'Hospital referral'],
- ['Lata Iyer','Elderly care','Kemps Corner','Dr. K. Shah (demo)',-120,45,1500,'Recovered','Sunita Patil','Paid',1,'Paid','Back to independent walking.',16,'Website'],
- ['Sanjay Verma','Critical care nursing','Lower Parel','Dr. S. Rao (demo)',-50,18,4800,'Sent home','Priya Nair','Paid',1,'Paid','Weaned off oxygen; sent home to family in Pune.',17,'Hospital referral'],
- ['Pooja Bhatt','Nursing care at home','Goregaon West','Dr. P. Gupta (demo)',-35,8,2000,'Recovered','Kavita Joshi','Part paid',.75,'Paid','Balance due after insurance claim.',18,'Website'],
- ['Imran Qureshi','Ventilator support','Sion','Dr. A. Kapoor (demo)',-80,25,6500,'Sent home','Deepak Yadav','Paid',1,'Paid','Discharged from home ICU; stable.',19,'Hospital referral'],
- ['Rekha Sawant','Post-hospitalization support','Ghatkopar East','Dr. R. Mehta (demo)',-45,10,2000,'Recovered','Joseph Mathew','Paid',1,'Paid','Post-surgery mobility regained.',20,'Phone'],
- ['Dinesh Shetty','Routine & specialized tests','Tardeo','Dr. K. Shah (demo)',-10,1,1500,'Closed','Farah Shaikh','Paid',1,'Paid','Thyroid panel; report shared.',21,'Website'],
- ['Mary Fernandes','Long-term care','Cuffe Parade','Dr. P. Gupta (demo)',-150,60,1400,'Sent home','Ravi Kumar','Unpaid',0,'Pending','Moved to family home in Goa.',22,'Phone'],
- ['Arjun Kapadia','Critical care nursing','Malabar Hill','Dr. S. Rao (demo)',-30,12,4800,'Recovered','Anita D\'Souza','Paid',1,'Paid','Recovered after ICU discharge.',23,'Hospital referral'],
- ['Vivek Rao','Elderly care','Powai','',7,30,1500,'Enquiry','','Unpaid',0,'Pending','Called about care for his father.',24,'Website'],
- ['Zainab Merchant','Sample collection at home','Mahim','',3,1,900,'Enquiry','','Unpaid',0,'Pending','Wants early-morning collection.',25,'Phone']
+ ['Asha Sample','Nursing care at home','Peddar Road','Dr. Demo (Endocrinology)',-6,14,2400,'Active','Anita Demo','Part paid',.5,'Pending','Insulin twice daily; daughter is main contact.',1,'Hospital referral'],
+ ['Asha Sample','Post-hospitalization support','Peddar Road','Dr. Demo (Endocrinology)',-70,12,2200,'Recovered','Ravi Demo','Paid',1,'Paid','Discharged after hip surgery; walking with support.',1,'Hospital referral'],
+ ['Asha Sample','Sample collection at home','Peddar Road','Dr. Demo (Endocrinology)',-25,1,900,'Closed','Farah Demo','Paid',1,'Paid','HbA1c and lipid profile.',1,'Phone'],
+ ['Vikram Sample','Ventilator support','Worli','Dr. Demo (Critical Care)',-12,30,6500,'Active','Deepak Demo, Priya Demo','Part paid',.4,'Pending','Day: Deepak, night: Priya. Family trained on alarms.',2,'Hospital referral'],
+ ['Meenakshi Sample','Elderly care','Matunga','Dr. Demo (Geriatrics)',-40,60,1600,'Active','Sunita Demo','Part paid',.6,'Pending','Mild dementia; prefers Tamil music in the evening.',3,'Website'],
+ ['Rohan Sample','Critical care nursing','Breach Candy','Dr. Demo (Cardiology)',-3,10,4800,'Active','Priya Demo','Unpaid',0,'Pending','Post-cardiac surgery monitoring.',4,'Hospital referral'],
+ ['Farida Sample','ICU setup at home','Bandra West','Dr. Demo (Critical Care)',-2,21,7200,'Active','Anita Demo','Part paid',.3,'Pending','Oxygen concentrator and monitor installed.',5,'Hospital referral'],
+ ['Gopal Sample','Long-term care','Dadar West','Dr. Demo (Geriatrics)',-90,120,1400,'Active','Ravi Demo','Part paid',.7,'Pending','Bed-bound; 2-hourly turning.',6,'Phone'],
+ ['Nalini Sample','Nursing care at home','Malad West','Dr. Demo (Surgery)',-4,7,2000,'Active','Kavita Demo','Unpaid',0,'Pending','Stoma care and dressing.',7,'Website'],
+ ['Harish Sample','Post-hospitalization support','Andheri East','Dr. Demo (Surgery)',-5,10,2000,'Active','Joseph Demo','Paid',1,'Pending','Post-stroke; physiotherapy at 11 am daily.',8,'Hospital referral'],
+ ['Shabnam Sample','Nursing care at home','Kurla West','Dr. Demo (Cardiology)',-1,10,2000,'Active','','Unpaid',0,'Pending','URGENT: nurse not yet assigned.',9,'Website'],
+ ['Kiran Sample','Elderly care','Juhu','Dr. Demo (Geriatrics)',-15,30,1600,'Active','Sunita Demo','Part paid',.5,'Pending','Lives alone; neighbour has spare key.',10,'Phone'],
+ ['Tara Sample','Critical care nursing','Colaba','Dr. Demo (Critical Care)',-8,14,4800,'Active','Deepak Demo','Part paid',.5,'Pending','Tracheostomy; suction every 2 hours.',11,'Hospital referral'],
+ ['Ajay Sample','Nursing care at home','Powai','Dr. Demo (Surgery)',2,10,2200,'Active','','Unpaid',0,'Pending','Starts next week; prefers a male nurse.',12,'Website'],
+ ['Leela Sample','Long-term care','Santacruz West','Dr. Demo (Geriatrics)',4,30,1500,'Active','Kavita Demo','Unpaid',0,'Pending','Family returning from abroad on start date.',13,'Phone'],
+ ['Suresh Sample','ICU setup at home','Chembur','Dr. Demo (Cardiology)',1,15,7000,'Active','Priya Demo','Unpaid',0,'Pending','Equipment delivery the day before.',14,'Hospital referral'],
+ ['Neelam Sample','Post-hospitalization support','Khar West','Dr. Demo (Endocrinology)',-60,10,2200,'Recovered','Anita Demo','Paid',1,'Paid','Recovered well after knee replacement.',15,'Hospital referral'],
+ ['Lata Sample','Elderly care','Kemps Corner','Dr. Demo (Geriatrics)',-120,45,1500,'Recovered','Sunita Demo','Paid',1,'Paid','Back to independent walking.',16,'Website'],
+ ['Sanjay Sample','Critical care nursing','Lower Parel','Dr. Demo (Critical Care)',-50,18,4800,'Sent home','Priya Demo','Paid',1,'Paid','Weaned off oxygen; sent home to family in Pune.',17,'Hospital referral'],
+ ['Pooja Sample','Nursing care at home','Goregaon West','Dr. Demo (Surgery)',-35,8,2000,'Recovered','Kavita Demo','Part paid',.75,'Paid','Balance due after insurance claim.',18,'Website'],
+ ['Imran Sample','Ventilator support','Sion','Dr. Demo (Cardiology)',-80,25,6500,'Sent home','Deepak Demo','Paid',1,'Paid','Discharged from home ICU; stable.',19,'Hospital referral'],
+ ['Rekha Sample','Post-hospitalization support','Ghatkopar East','Dr. Demo (Endocrinology)',-45,10,2000,'Recovered','Joseph Demo','Paid',1,'Paid','Post-surgery mobility regained.',20,'Phone'],
+ ['Dinesh Sample','Routine & specialized tests','Tardeo','Dr. Demo (Geriatrics)',-10,1,1500,'Closed','Farah Demo','Paid',1,'Paid','Thyroid panel; report shared.',21,'Website'],
+ ['Mary Sample','Long-term care','Cuffe Parade','Dr. Demo (Surgery)',-150,60,1400,'Sent home','Ravi Demo','Unpaid',0,'Pending','Moved to family home in Goa.',22,'Phone'],
+ ['Arjun Sample','Critical care nursing','Malabar Hill','Dr. Demo (Critical Care)',-30,12,4800,'Recovered','Anita Demo','Paid',1,'Paid','Recovered after ICU discharge.',23,'Hospital referral'],
+ ['Vivek Sample','Elderly care','Powai','',7,30,1500,'Enquiry','','Unpaid',0,'Pending','Called about care for his father.',24,'Website'],
+ ['Zainab Sample','Sample collection at home','Mahim','',3,1,900,'Enquiry','','Unpaid',0,'Pending','Wants early-morning collection.',25,'Phone']
 ];
 const PATIENT_COLS=['Source','Patient Name','Doctor','Service','Locality','Phone','Start Date','End Date','Days','Rate','Total Amount','Case Type','Status','Remarks','Assigned Staff','Payment Status','Amount Paid','Staff Payout'];
 const STAFF_COLS=['Staff Name','Employee ID','Department','Contact Number','Base Locality','Shift Type','Daily Rate','Status','Remarks'];
 const CONS_COLS=['Item Name','Category','Unit','Procurement Cost','Retail Rate','Stock','Remarks'];
-const phoneOf=n=>`+91 90000 ${String(10000+n).slice(-5)}`;
+const phoneOf=n=>`+91 55555 ${String(n).padStart(5,'0')}`;   // 55555… is not a real Indian mobile range
 const tab=(name,cols,rows)=>({ id:id('tab'), name, columns:cols.slice(), hidden: name==='Patient Data'?['Assigned Staff','Payment Status','Amount Paid','Staff Payout']:[], rows, notes:[], filters:{}, colorFilter:null, sort:'priority', search:'' });
 const row=(cells,log)=>({ id:id('row'), cells, rowColor:null, cellColors:{}, pinned:false, log:log||['Demo record (fictional)'], modified:Date.now() });
 
@@ -123,7 +123,7 @@ function seed(){
   const acc=(o)=>{ const a={ id:id('acc'), active:true, mustChange:false, caseIds:[], dailyRate:null, staffId:'', phone:'', email:'', address:'', created:ago(200), lastLogin:ago(0,3), profile:{}, slug:null, ...o }; A.push(a); return a; };
   const admin=acc({ role:'admin', name:'Office (Demo)', login:'admin' });
   const nurses=NURSES.map((n,i)=>acc({ role:'staff', name:n[0], login:n[1].toLowerCase(), staffId:n[1], phone:phoneOf(500+i), address:n[2], dailyRate:n[3],
-    slug:lc(n[0]).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-demo', created:ago(300-i*20),
+    slug:'demo-'+lc(n[0].split(' ')[0]), created:ago(300-i*20),
     profile:{ public:true, title:n[6], workingSince:n[7], bio:n[8], skills:n[9], languages:n[10], diet:n[11], qualification:n[12] } }));
   nurses.forEach((a,i)=>files.push({ id:id('f'), target:'profile', targetId:a.id, visibleTo:'both', name:'profile.svg', mime:'image/svg+xml', b64:b64(avatar(i,NURSES[i][4],NURSES[i][5])), size:3000, by:'Office (Demo)', byRole:'admin', at:ago(30) }));
   // board
@@ -144,59 +144,59 @@ function seed(){
   // patients with logins (the demo patient + reviewers)
   const byName=n=>rows.filter(r=>r.cells['Patient Name']===n);
   const pat=(name)=>{ const r=byName(name)[0]; return acc({ role:'patient', name, login:p10(r.cells['Phone']), phone:r.cells['Phone'], email:'', address:r.cells['Locality']+', Mumbai', created:ago(60) }); };
-  const asha=pat('Asha Kulkarni'); const others=['Rohan Mehta','Neelam Gupta','Lata Iyer','Sanjay Verma','Pooja Bhatt','Imran Qureshi','Rekha Sawant','Arjun Kapadia','Meenakshi Iyer','Vikram Bhosale','Dinesh Shetty','Tara Sequeira'].map(pat);
+  const asha=pat('Asha Sample'); const others=['Rohan Sample','Neelam Sample','Lata Sample','Sanjay Sample','Pooja Sample','Imran Sample','Rekha Sample','Arjun Sample','Meenakshi Sample','Vikram Sample','Dinesh Sample','Tara Sample'].map(pat);
   const P=n=>A.find(a=>a.role==='patient'&&a.name===n), N=n=>nurses.find(a=>a.name===n);
   // reviews
   const R=(nurse,patient,rating,comment,d)=>reviews.push({ id:id('rv'), staffId:N(nurse).id, patientId:P(patient).id, rating, comment, verified:true, hidden:false, at:ago(d) });
-  R('Anita D\'Souza','Neelam Gupta',5,'Anita explained every medicine and taught my son how to do the dressing. We felt safe with her.',50);
-  R('Anita D\'Souza','Arjun Kapadia',5,'Very professional. She noticed a drop in oxygen before anyone else did.',20);
-  R('Anita D\'Souza','Asha Kulkarni',4,'Kind and on time. Sometimes a little quiet, but very good at her work.',3);
-  R('Ravi Kumar','Asha Kulkarni',5,'Ravi helped my mother walk again after her hip surgery. Always patient.',55);
-  R('Priya Nair','Sanjay Verma',5,'Excellent ICU nurse. Calm during a very scary week for our family.',40);
-  R('Priya Nair','Rohan Mehta',4,'Knows the monitors inside out. Would request her again.',1);
-  R('Sunita Patil','Lata Iyer',5,'Aaji loved her. Sunita made a daily routine that we still follow.',80);
-  R('Sunita Patil','Meenakshi Iyer',5,'Gentle and patient with my grandmother.',10);
-  R('Kavita Joshi','Pooja Bhatt',4,'Good stoma care and very organised with medicines.',25);
-  R('Deepak Yadav','Imran Qureshi',5,'Taught us suctioning and what each alarm means. Very reassuring.',60);
-  R('Deepak Yadav','Tara Sequeira',4,'Hard-working and careful.',4);
-  R('Deepak Yadav','Vikram Bhosale',5,'Handles the ventilator very confidently.',2);
-  R('Joseph Mathew','Rekha Sawant',5,'Strong, kind and never in a hurry. Helped with physio every day.',38);
-  R('Farah Shaikh','Dinesh Shetty',5,'Took the sample in one go, no pain at all.',9);
-  R('Farah Shaikh','Asha Kulkarni',4,'Came early in the morning as asked.',24);
-  reviews.push({ id:id('rv'), staffId:N('Ravi Kumar').id, patientId:P('Rohan Mehta').id, rating:1, comment:'Did not like the service. (Example of a review the office has pulled down.)', verified:false, hidden:true, at:ago(6) });
+  R('Anita Demo','Neelam Sample',5,'Anita explained every medicine and taught my son how to do the dressing. We felt safe with her.',50);
+  R('Anita Demo','Arjun Sample',5,'Very professional. She noticed a drop in oxygen before anyone else did.',20);
+  R('Anita Demo','Asha Sample',4,'Kind and on time. Sometimes a little quiet, but very good at her work.',3);
+  R('Ravi Demo','Asha Sample',5,'Ravi helped my mother walk again after her hip surgery. Always patient.',55);
+  R('Priya Demo','Sanjay Sample',5,'Excellent ICU nurse. Calm during a very scary week for our family.',40);
+  R('Priya Demo','Rohan Sample',4,'Knows the monitors inside out. Would request her again.',1);
+  R('Sunita Demo','Lata Sample',5,'Aaji loved her. Sunita made a daily routine that we still follow.',80);
+  R('Sunita Demo','Meenakshi Sample',5,'Gentle and patient with my grandmother.',10);
+  R('Kavita Demo','Pooja Sample',4,'Good stoma care and very organised with medicines.',25);
+  R('Deepak Demo','Imran Sample',5,'Taught us suctioning and what each alarm means. Very reassuring.',60);
+  R('Deepak Demo','Tara Sample',4,'Hard-working and careful.',4);
+  R('Deepak Demo','Vikram Sample',5,'Handles the ventilator very confidently.',2);
+  R('Joseph Demo','Rekha Sample',5,'Strong, kind and never in a hurry. Helped with physio every day.',38);
+  R('Farah Demo','Dinesh Sample',5,'Took the sample in one go, no pain at all.',9);
+  R('Farah Demo','Asha Sample',4,'Came early in the morning as asked.',24);
+  reviews.push({ id:id('rv'), staffId:N('Ravi Demo').id, patientId:P('Rohan Sample').id, rating:1, comment:'Did not like the service. (Example of a review the office has pulled down.)', verified:false, hidden:true, at:ago(6) });
   // files on cases
   const caseOf=(n,svc)=>rows.find(r=>r.cells['Patient Name']===n&&(!svc||r.cells['Service']===svc));
   const F=(r,name,vis,title,lines,d)=>files.push({ id:id('f'), target:'case', targetId:r.id, visibleTo:vis, name, mime:'application/pdf', b64:pdf(title,lines), size:1800, by:'Office (Demo)', byRole:'admin', at:ago(d) });
-  const ac=caseOf('Asha Kulkarni','Nursing care at home');
-  F(ac,'Bill - nursing care (demo).pdf','patient','Interim bill',[ 'Patient: Asha Kulkarni (fictional)', `Service: Nursing care at home, from ${ac.cells['Start Date']}`, 'Rate: Rs. 2,400 per day', 'Advance received: Rs. 16,800', 'Balance is payable at the end of the service.'],2);
+  const ac=caseOf('Asha Sample','Nursing care at home');
+  F(ac,'Bill - nursing care (demo).pdf','patient','Interim bill',[ 'Patient: Asha Sample (fictional)', `Service: Nursing care at home, from ${ac.cells['Start Date']}`, 'Rate: Rs. 2,400 per day', 'Advance received: Rs. 16,800', 'Balance is payable at the end of the service.'],2);
   F(ac,'Care plan (demo).pdf','both','Care plan',[ 'Insulin: 10 units before breakfast, 8 units before dinner', 'Check blood sugar 4 times a day and write it in the diary', 'Walk twice a day with support', 'Call the office if sugar is below 70 or above 300'],5);
   F(ac,'Doctor notes - internal (demo).pdf','office','Internal doctor notes',[ 'Office-only document: patients and staff cannot open this.', 'Review insulin dose after 2 weeks.'],5);
-  const vb=caseOf('Vikram Bhosale'); F(vb,'Ventilator settings (demo).pdf','staff','Ventilator settings',[ 'Mode: SIMV, FiO2 35%, PEEP 5', 'Alarm limits as set by the ICU team', 'Shown to staff on this case only.'],10);
-  F(caseOf('Neelam Gupta'),'Final bill (demo).pdf','patient','Final bill - paid',[ 'Post-hospitalization support, 10 days', 'Total: Rs. 22,000 - Paid in full', 'Thank you for choosing Jaslok@Home (demo).'],48);
+  const vb=caseOf('Vikram Sample'); F(vb,'Ventilator settings (demo).pdf','staff','Ventilator settings',[ 'Mode: SIMV, FiO2 35%, PEEP 5', 'Alarm limits as set by the ICU team', 'Shown to staff on this case only.'],10);
+  F(caseOf('Neelam Sample'),'Final bill (demo).pdf','patient','Final bill - paid',[ 'Post-hospitalization support, 10 days', 'Total: Rs. 22,000 - Paid in full', 'Thank you for choosing Jaslok@Home (demo).'],48);
   // posts
   const post=(o)=>{ const p={ id:id('post'), subject:'', body:'', caseId:null, caseLabel:'', urgent:false, status:'open', shared:false, replies:[], readBy:[], at:Date.now(), ...o }; posts.push(p); return p; };
   const W=a=>({id:a.id,role:a.role,name:a.name});
   post({ kind:'notice', from:W(admin), to:'everyone', subject:'Welcome to the Jaslok@Home demo', body:'Everything you see here is made up: patients, nurses, phone numbers, bills and reviews. Click around freely; nothing is saved outside this browser tab.', at:ago(0,2), readBy:[admin.id] });
   post({ kind:'notice', from:W(admin), to:'staffs', subject:'BLS refresher this Saturday', body:'Refresher training at 10 am. Please reply here to confirm, or tell us if you are on duty.', at:ago(2), readBy:[admin.id] });
-  const q1=post({ kind:'query', from:W(asha), to:'admin', subject:'Can we extend nursing by one week?', body:'The doctor wants the insulin monitoring to continue. Can Anita stay for one more week?', caseId:ac.id, caseLabel:'Asha Kulkarni · Nursing care at home', at:ago(1,5), readBy:[asha.id,admin.id], status:'resolved' });
+  const q1=post({ kind:'query', from:W(asha), to:'admin', subject:'Can we extend nursing by one week?', body:'The doctor wants the insulin monitoring to continue. Can Anita stay for one more week?', caseId:ac.id, caseLabel:'Asha Sample · Nursing care at home', at:ago(1,5), readBy:[asha.id,admin.id], status:'resolved' });
   q1.replies.push({ id:id('r'), from:W(admin), body:`Yes, extended till ${day(14)}. Anita will continue. The updated bill is in your Documents.`, at:ago(1,2) });
   q1.replies.push({ id:id('r'), from:W(asha), body:'Thank you so much!', at:ago(1,1) });
-  const ho=post({ kind:'handover', from:W(N('Anita D\'Souza')), to:'admin', subject:'Evening handover', body:'BP 130/80. Fasting sugar 142, post-dinner 188. Insulin given as per chart. Appetite better today. Slight swelling on left ankle, please ask the doctor at the next review.', caseId:ac.id, caseLabel:'Asha Kulkarni · Nursing care at home', at:ago(0,14), shared:true, readBy:[N('Anita D\'Souza').id,admin.id] });
-  post({ kind:'alert', from:W(N('Deepak Yadav')), to:'admin', subject:'Oxygen cylinder running low', body:'Backup cylinder at Vikram Bhosale\'s home is under 20%. Need a refill before 8 pm tonight.', caseId:vb.id, caseLabel:'Vikram Bhosale · Ventilator support', urgent:true, at:ago(0,1), readBy:[N('Deepak Yadav').id] });
-  post({ kind:'report-staff', from:W(P('Rohan Mehta')), to:'admin', subject:'About the night nurse', body:'Staff member: (night relief nurse)\n\nThe relief nurse on Tuesday night was on her phone for long periods. Otherwise care is good.', at:ago(0,20), readBy:[P('Rohan Mehta').id] });
-  const fb=post({ kind:'feedback', from:W(P('Dinesh Shetty')), to:'admin', subject:'Thank you', body:'Very smooth sample collection and the report came the same evening.', at:ago(8), readBy:[admin.id], status:'resolved' });
+  const ho=post({ kind:'handover', from:W(N('Anita Demo')), to:'admin', subject:'Evening handover', body:'BP 130/80. Fasting sugar 142, post-dinner 188. Insulin given as per chart. Appetite better today. Slight swelling on left ankle, please ask the doctor at the next review.', caseId:ac.id, caseLabel:'Asha Sample · Nursing care at home', at:ago(0,14), shared:true, readBy:[N('Anita Demo').id,admin.id] });
+  post({ kind:'alert', from:W(N('Deepak Demo')), to:'admin', subject:'Oxygen cylinder running low', body:'Backup cylinder at Vikram Sample\'s home is under 20%. Need a refill before 8 pm tonight.', caseId:vb.id, caseLabel:'Vikram Sample · Ventilator support', urgent:true, at:ago(0,1), readBy:[N('Deepak Demo').id] });
+  post({ kind:'report-staff', from:W(P('Rohan Sample')), to:'admin', subject:'About the night nurse', body:'Staff member: (night relief nurse)\n\nThe relief nurse on Tuesday night was on her phone for long periods. Otherwise care is good.', at:ago(0,20), readBy:[P('Rohan Sample').id] });
+  const fb=post({ kind:'feedback', from:W(P('Dinesh Sample')), to:'admin', subject:'Thank you', body:'Very smooth sample collection and the report came the same evening.', at:ago(8), readBy:[admin.id], status:'resolved' });
   fb.replies.push({ id:id('r'), from:W(admin), body:'Thank you for the kind words! We have passed them on to Farah.', at:ago(8) });
-  const sq=post({ kind:'query', from:W(N('Priya Nair')), to:'admin', subject:'Swap Sunday duty?', body:'Can I swap my Sunday night with Deepak? He has agreed.', at:ago(1,9), readBy:[N('Priya Nair').id,admin.id] });
+  const sq=post({ kind:'query', from:W(N('Priya Demo')), to:'admin', subject:'Swap Sunday duty?', body:'Can I swap my Sunday night with Deepak? He has agreed.', at:ago(1,9), readBy:[N('Priya Demo').id,admin.id] });
   sq.replies.push({ id:id('r'), from:W(admin), body:'Approved. Updated on the board.', at:ago(1,7) });
-  post({ kind:'message', from:W(admin), to:asha.id, subject:'Your nurse next week', body:'Anita D\'Souza continues as your nurse next week. Her relief on Sunday is Kavita Joshi.', at:ago(0,6), readBy:[admin.id] });
-  files.push({ id:id('f'), target:'post', targetId:ho.id, visibleTo:'office', name:'sugar chart (demo).pdf', mime:'application/pdf', b64:pdf('Blood sugar chart',['Day 1: 152 / 201','Day 2: 147 / 190','Day 3: 142 / 188']), size:1500, by:'Anita D\'Souza', byRole:'staff', at:ago(0,14) });
+  post({ kind:'message', from:W(admin), to:asha.id, subject:'Your nurse next week', body:'Anita Demo continues as your nurse next week. Her relief on Sunday is Kavita Demo.', at:ago(0,6), readBy:[admin.id] });
+  files.push({ id:id('f'), target:'post', targetId:ho.id, visibleTo:'office', name:'sugar chart (demo).pdf', mime:'application/pdf', b64:pdf('Blood sugar chart',['Day 1: 152 / 201','Day 2: 147 / 190','Day 3: 142 / 188']), size:1500, by:'Anita Demo', byRole:'staff', at:ago(0,14) });
   // inquiries
   const inq=(o)=>{ const i={ id:id('inq'), status:'new', note:'', email:'', service:'', locality:'', startDate:'', message:'', caseId:null, requestedStaff:null, at:Date.now(), ...o }; inquiries.push(i); return i; };
-  const i1=inq({ name:'Rekha Sawant', phone:phoneOf(31), service:'ICU setup at home', locality:'Sion', startDate:day(3), message:'My uncle is being discharged from the ICU on Friday. We need an ICU setup and a nurse for nights.', at:ago(0,3) });
-  files.push({ id:id('f'), target:'inquiry', targetId:i1.id, visibleTo:'office', name:'discharge summary (demo).pdf', mime:'application/pdf', b64:pdf('Discharge summary',['Patient: fictional','Diagnosis: post-operative care','Advice: home ICU for 2 weeks']), size:1500, by:'Rekha Sawant', byRole:'visitor', at:ago(0,3) });
-  inq({ name:'Hemant Joshi', phone:phoneOf(32), service:'Request for Priya Nair', locality:'Chembur', startDate:day(5), message:'Requested nurse: Priya Nair\n\nShe looked after my neighbour and we would like her for my father.', requestedStaff:N('Priya Nair').id, at:ago(0,8) });
-  inq({ name:'Vivek Rao', phone:phoneOf(24), service:'Elderly care', locality:'Powai', message:'Looking for a day attendant for my father (78).', status:'contacted', note:'Called on Monday; sending rate card.', at:ago(2) });
-  inq({ name:'Shabnam Ali', phone:phoneOf(9), service:'Nursing care at home', locality:'Kurla West', status:'accepted', caseId:caseOf('Shabnam Ali').id, at:ago(2,4) });
+  const i1=inq({ name:'Kamala Sample', phone:phoneOf(31), service:'ICU setup at home', locality:'Sion', startDate:day(3), message:'My uncle is being discharged from the ICU on Friday. We need an ICU setup and a nurse for nights.', at:ago(0,3) });
+  files.push({ id:id('f'), target:'inquiry', targetId:i1.id, visibleTo:'office', name:'discharge summary (demo).pdf', mime:'application/pdf', b64:pdf('Discharge summary',['Patient: fictional','Diagnosis: post-operative care','Advice: home ICU for 2 weeks']), size:1500, by:'Kamala Sample', byRole:'visitor', at:ago(0,3) });
+  inq({ name:'Hemant Sample', phone:phoneOf(32), service:'Request for Priya Demo', locality:'Chembur', startDate:day(5), message:'Requested nurse: Priya Demo\n\nShe looked after my neighbour and we would like her for my father.', requestedStaff:N('Priya Demo').id, at:ago(0,8) });
+  inq({ name:'Vivek Sample', phone:phoneOf(24), service:'Elderly care', locality:'Powai', message:'Looking for a day attendant for my father (78).', status:'contacted', note:'Called on Monday; sending rate card.', at:ago(2) });
+  inq({ name:'Shabnam Sample', phone:phoneOf(9), service:'Nursing care at home', locality:'Kurla West', status:'accepted', caseId:caseOf('Shabnam Sample').id, at:ago(2,4) });
   inq({ name:'Test Enquiry', phone:phoneOf(33), service:'', message:'Just checking prices.', status:'declined', note:'Outside our area.', at:ago(9) });
   return { v:1, accounts:A, posts, inquiries, reviews, files, board, sessions:{}, settings:{ staffSeesPatientBilling:true, staffSeesPatientPhone:true, city:'Mumbai', daysInclusive:true } };
 }
@@ -346,7 +346,7 @@ const API={
 function guardSize(b){ if((b||'').length*.75 > 1.5*1024*1024) fail('In the demo, files up to 1.5 MB can be attached (the real system allows 5 MB).'); }
 
 /* role switch from the URL */
-function loginAs(role){ const d=load(); const a= role==='admin'? d.accounts.find(x=>x.role==='admin') : role==='staff'? d.accounts.find(x=>x.staffId==='JH-101') : d.accounts.find(x=>x.name==='Asha Kulkarni');
+function loginAs(role){ const d=load(); const a= role==='admin'? d.accounts.find(x=>x.role==='admin') : role==='staff'? d.accounts.find(x=>x.staffId==='DEMO-101') : d.accounts.find(x=>x.name==='Asha Sample');
   if(a) localStorage.setItem(TOKEN, tokenFor(a)); }
 if(['admin','patient','staff'].includes(q)) loginAs(q);
 
@@ -354,7 +354,7 @@ if(['admin','patient','staff'].includes(q)) loginAs(q);
 function bar(){
   if(document.getElementById('jhDemoBar')) return;
   const page=location.pathname.split('/').pop()||'index.html';
-  const d=load(); const nurse=d.accounts.find(a=>a.staffId==='JH-101');
+  const d=load(); const nurse=d.accounts.find(a=>a.staffId==='DEMO-101');
   const links=[['index.html','Website'],['admin.html?demo=admin','Office (admin)'],['admin.html?demo=admin&go=map','Map'],['portal.html?demo=patient','Patient app'],['portal.html?demo=staff','Nurse app'],[`nurse.html?n=${nurse?nurse.slug:''}`,'Nurse profile']];
   const el=document.createElement('div'); el.id='jhDemoBar';
   el.innerHTML=`<style>
@@ -371,6 +371,34 @@ function bar(){
   const host=document.getElementById('app')||document.body; host.insertBefore(el, host.firstChild);
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bar); else bar();
+
+/* ---------------- WhatsApp / phone calls never leave the demo ----------------
+   Every wa.me / tel: link and window.open to WhatsApp shows a preview instead.
+   Only links marked data-real (the office's real number on the website) work normally. */
+function preview(url){
+  let to='', text='', kind='WhatsApp';
+  try{ if(/^tel:/i.test(url)){ kind='Phone call'; to=decodeURIComponent(url.slice(4)); }
+       else { const u=new URL(url); to=u.pathname.replace(/\//g,''); text=u.searchParams.get('text')||''; } }catch(e){}
+  const shown= to ? ('+'+to.replace(/^\+/,'')).replace(/^\+(\d{2})(\d{5})(\d+)$/,'+$1 $2 $3') : 'you choose the contact or group';
+  const esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const m=document.createElement('div'); m.id='jhDemoPrev';
+  m.innerHTML=`<div class="b"><div class="h"><span class="tag">DEMO</span> ${kind} preview</div>
+    <p class="n">${kind==='WhatsApp'?'In the real system this opens WhatsApp with the message below ready to send.':'In the real system this starts a phone call.'} In the demo nothing is sent, because the number is fictional.</p>
+    <div class="to"><b>To:</b> ${esc(shown)}</div>${text?`<div class="msg">${esc(text)}</div>`:''}<button type="button">OK</button></div>
+    <style>#jhDemoPrev{position:fixed;inset:0;background:rgba(10,30,28,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;font-family:Poppins,"Segoe UI",system-ui,sans-serif}
+    #jhDemoPrev .b{background:#fff;border-radius:16px;max-width:440px;width:100%;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.3);color:#16302E}
+    #jhDemoPrev .h{font-weight:700;font-size:17px;display:flex;gap:8px;align-items:center}#jhDemoPrev .tag{background:#F5A524;border-radius:6px;padding:1px 7px;font-size:11px;letter-spacing:.5px}
+    #jhDemoPrev .n{color:#5a6b68;font-size:13.5px;margin:8px 0 12px}#jhDemoPrev .to{font-size:14px;margin-bottom:8px}
+    #jhDemoPrev .msg{background:#DCF8C6;border-radius:10px 10px 10px 2px;padding:10px 12px;white-space:pre-wrap;font-size:14px;margin-bottom:14px}
+    #jhDemoPrev button{background:#1F6F6B;color:#fff;border:none;border-radius:10px;padding:9px 22px;font-weight:600;cursor:pointer;float:right}</style>`;
+  m.addEventListener('click',e=>{ if(e.target===m||e.target.tagName==='BUTTON') m.remove(); });
+  document.body.appendChild(m);
+}
+const isComm=u=>/^tel:|^https?:\/\/(wa\.me|api\.whatsapp\.com|web\.whatsapp\.com)/i.test(String(u||''));
+document.addEventListener('click',e=>{ const a=e.target.closest&&e.target.closest('a[href]'); if(!a||a.hasAttribute('data-real')) return;
+  if(isComm(a.getAttribute('href'))){ e.preventDefault(); e.stopImmediatePropagation(); preview(a.getAttribute('href')); } }, true);
+const realOpen=global.open.bind(global);
+global.open=function(url,...rest){ if(isComm(url)){ preview(url); return null; } return realOpen(url,...rest); };
 
 global.JH_DEMO={ on:true, TOKEN, rpc:async(fn,args)=>{ const f=API[fn]; if(!f) fail('Not available in the demo: '+fn); await new Promise(r=>setTimeout(r,60)); const r=f(args||{}); return r===undefined?null:JSON.parse(JSON.stringify(r)); },
   reset(){ sessionStorage.removeItem(DBKEY); DB=null; } };
