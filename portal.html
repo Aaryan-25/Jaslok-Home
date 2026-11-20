@@ -25,6 +25,7 @@
 <div id="modal"></div>
 
 <script src="js/config.js"></script>
+<script src="js/demo.js"></script>
 <script src="js/store.js"></script>
 <script src="js/common.js"></script>
 <script src="vendor/qrcode.js"></script>
@@ -77,6 +78,7 @@ $('#logout').addEventListener('click',async()=>{ await Store.logout(); location.
 /* ================= patient ================= */
 function noCases(){ return `<div class="empty"><b>No care records linked to your account yet</b>
   Records appear here once our office has your case on file under the mobile number <b>${esc(ME.phone)}</b>.<br>If you booked with a different number, send us a query from <a href="#messages" data-go="messages">Messages</a> and we will link it.</div>`; }
+function waOffice(label){ const n=(window.JH_CONFIG||{}).officeWhatsApp; return n?`<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/${n}?text=${encodeURIComponent(`Hello Jaslok@Home, this is ${ME.name}.`)}">${label}</a>`:''; }
 function staffLinks(names){
   return String(names).split(/[,;/&]+/).map(x=>x.trim()).filter(Boolean).map(n=>{ const k=n.toLowerCase();
     const s=Store.nurses().find(x=>x.name.toLowerCase()===k||(x.staffId||'').toLowerCase()===k);
@@ -117,6 +119,7 @@ function pHome(){
       <button class="btn" data-compose="query">Ask a question</button>
       <button class="btn" data-compose="feedback">Give feedback</button>
       <button class="btn danger" data-compose="report-staff">Report a concern about staff</button>
+      ${waOffice('💬 WhatsApp the office')}
     </div>`;
 }
 function pHistory(){
@@ -149,7 +152,8 @@ function sDuties(){
   const S=Store.settings(); const on=CASES.filter(c=>c.ongoing), up=CASES.filter(c=>c.upcoming);
   const city=S.city||'Mumbai';
   const dir=c=>{ const q=[c.locality,city].filter(Boolean).join(', '); return c.locality?`<a class="btn sm primary" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}">🧭 Directions</a>`:''; };
-  const extra=c=>{ const n=sharedFor(c.id).length; return `<div class="duty-acts">${dir(c)}
+  const waFam=c=>{ const d=String(c.phone||'').replace(/\D/g,''); const n=d.length===10?'91'+d:d; return n.length>=11?`<a class="btn sm wa" target="_blank" rel="noopener" href="https://wa.me/${n}?text=${encodeURIComponent(`Hello, this is ${ME.name.split(' ')[0]}, your nurse from Jaslok@Home.`)}">💬 WhatsApp family</a>`:''; };
+  const extra=c=>{ const n=sharedFor(c.id).length; return `<div class="duty-acts">${dir(c)}${waFam(c)}
       <button class="btn sm" data-compose="handover" data-case="${c.id}">Handover note</button>
       <button class="btn sm" data-compose="alert" data-case="${c.id}">Alert office</button>
       ${n?`<button class="btn sm" data-go="shared">${n} shared note${n>1?'s':''}</button>`:''}</div>`; };
@@ -217,7 +221,7 @@ document.addEventListener('submit',async e=>{
 function caseOptions(sel){ return `<option value="">— Not about a specific service —</option>`+CASES.map(c=>`<option value="${c.id}" ${c.id===sel?'selected':''}>${esc((ME.role==='staff'?c.name+' · ':'')+(c.service||'Service')+' · '+fmtDate(c.start))}</option>`).join(''); }
 function pMessages(){
   const posts=Store.visiblePosts();
-  $('#page').innerHTML=`<div class="pg-h"><div><h1>Messages</h1><p>${ME.role==='staff'?'Send handover notes, alerts and queries to the office. Notices from the office appear here.':'Notices from Jaslok Homecare, and your conversations with our office.'}</p></div><span class="spacer"></span><button class="btn primary" data-compose="${KINDS[ME.role][0][0]}">New message</button></div>
+  $('#page').innerHTML=`<div class="pg-h"><div><h1>Messages</h1><p>${ME.role==='staff'?'Send handover notes, alerts and queries to the office. Notices from the office appear here.':'Notices from Jaslok Homecare, and your conversations with our office.'}</p></div><span class="spacer"></span>${waOffice('💬 WhatsApp')}<button class="btn primary" data-compose="${KINDS[ME.role][0][0]}">New message</button></div>
     <div id="feed">${posts.length?posts.map(postHTML).join(''):`<div class="empty"><b>No messages yet</b></div>`}</div>`;
   bindPosts();
 }

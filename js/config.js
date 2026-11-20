@@ -5,5 +5,7 @@
 window.JH_CONFIG = {
   supabaseUrl: 'https://bujjnnvuhvctrggrnhty.supabase.co',
   supabaseKey: 'sb_publishable_XtrwDnPXjQz1wm6iUrOqyQ_CIeE8wZo',
-  olaMapsKey:  'C7lhqxEaqQmrkRxoY90u9EfslCK0'
+  olaMapsKey:  'C7lhqxEaqQmrkRxoY90u9EfslCK0',
+  officePhone: '+91 73 0190 0190',
+  officeWhatsApp: '917301900190'   // number used for "WhatsApp us" buttons (country code + number, no +)
 };

@@ -36,6 +36,9 @@ The board is saved on this device and in the database (header shows "✓ Synced"
 
 **Updating:** whenever a new version of `setup.sql` arrives, run it again in the SQL Editor. It keeps all existing data (version 3 added document storage, version 4 adds nurse profiles and reviews).
 
+## Live demo (fictional data)
+The website's **Explore the platform** section opens a demo of every feature with made-up patients, nurses, bills, reviews and map locations. It runs entirely in the visitor's browser tab (`js/demo.js`): it never touches the Supabase database and disappears when the tab is closed. Links: `admin.html?demo=admin`, `portal.html?demo=patient`, `portal.html?demo=staff`, `?demo=reset`, `?demo=off`. Demo password: `demo1234`.
+
 ## Features at a glance
 - **Map tab** (office board): patients coloured by nurse, red = no nurse; nurses' homes; click a patient for the nearest free nurse and assign in one click. Uses the Locality on the card + the City setting; Ola Maps looks each place up once and remembers it.
 - **Documents**: attach files to a case (choose who sees it: office / patient / staff / both), to messages and replies, and to website inquiries. Max 5 MB each; photos are shrunk automatically. Stored in the database (free plan ≈ 500 MB).

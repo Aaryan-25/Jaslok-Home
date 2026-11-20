@@ -86,9 +86,11 @@ function renderPortal(){
   $('#boardWrap').innerHTML=`<div class="page pp"><div class="page-inner" style="max-width:1100px">
     <div class="pp-head"><div><h1>Portal</h1><p class="lead">Everything coming from the website, patients and staff. Logged in as <b>${esc(me.name)}</b> (admin).</p></div>
       <span class="spacer"></span><a class="btn" href="index.html" target="_blank">View website ↗</a><button class="btn" id="ppLogout">Log out</button></div>
+    ${ppLauncher()}
     <div class="pp-nav">${secs.map(([k,l,n])=>`<button data-sec="${k}" class="${PP.sec===k?'on':''}">${l}${n?` <span class="pp-n">${n}</span>`:''}</button>`).join('')}</div>
     <div id="ppBody"></div></div></div>`;
   $('#ppLogout').addEventListener('click',adminLogout);
+  $('.pp-launch').addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b) ppGo(b.dataset.go); });
   $('.pp-nav').addEventListener('click',e=>{ const b=e.target.closest('[data-sec]'); if(b){ PP.sec=b.dataset.sec; renderPortal(); } });
   ({inbox:ppInbox,inquiries:ppInquiries,notices:ppNotices,accounts:ppAccounts,billing:ppBilling,reviews:ppReviews,psettings:ppSettings})[PP.sec]();
 }
@@ -108,6 +110,7 @@ function ppPostHTML(p, opts={}){
     <div class="pp-body">${esc(p.body)}</div>${FileUI.chips(p.files,{del:true})}
     ${p.replies.length?`<div class="pp-replies">${p.replies.map(r=>`<div><small><b>${r.from.role==='admin'?'Office':esc(r.from.name)}</b> · ${ppWhen(r.at)}</small><div>${esc(r.body)}</div></div>`).join('')}</div>`:''}
     <div class="pp-acts">
+      ${p.from.role!=='admin'?ppWaBtn((Store.getAccount(p.from.id)||{}).phone, `Hello ${p.from.name.split(' ')[0]}, this is the Jaslok@Home office about your message "${p.subject||PP_KIND[p.kind]||''}".`, 'WhatsApp '+esc(p.from.name.split(' ')[0])):''}
       ${p.kind!=='notice'?`<form class="pp-reply" data-reply="${p.id}"><span data-clip="${p.id}"></span><input placeholder="Reply${p.from.role==='admin'?'':' to '+esc(p.from.name.split(' ')[0])}…"><button class="btn sm primary">Send</button></form>`:''}
       ${opts.manage!==false && p.from.role!=='admin'?`<button class="btn sm" data-act="${p.status==='resolved'?'reopen':'resolve'}" data-id="${p.id}">${p.status==='resolved'?'Reopen':'Mark resolved'}</button>`:''}
       ${shareable?`<button class="btn sm" data-act="share" data-id="${p.id}" title="Staff assigned to this patient will see it under Shared patient notes">${p.shared?'Stop sharing':'Share with staff on this case'}</button>`:''}
@@ -200,13 +203,16 @@ function ppNotices(){
       <label>Subject<input name="subject" maxlength="120"></label>
       <label>Text<textarea name="body" rows="4"></textarea></label>
       <div id="ppCompFiles"></div>
-      <div><button class="btn primary">Send</button></div></form></div>
+      <div class="lead" style="margin:0;font-size:12.5px">Tip: after sending, use <b>Share on WhatsApp</b> to also post it in your staff or family WhatsApp groups.</div>
+      <div class="row"><button class="btn primary">Send</button><button type="button" class="btn wa" id="ppWaShare">💬 Share on WhatsApp</button></div></form></div>
     <h2 style="border:none;margin-top:18px">Sent by the office</h2>
     ${sent.length?sent.map(p=>ppPostHTML(p,{manage:false})).join(''):`<p class="lead">Nothing sent yet.</p>`}`;
   const f=$('#ppCompose',body);
   if(PP.msgTo){ f.kind.value='message'; PP.msgTo=null; setTimeout(()=>f.subject.focus(),20); }
   f.to.addEventListener('change',()=>{ if(!['everyone','patients','staffs'].includes(f.to.value)) f.kind.value='message'; });
   const pick=FileUI.picker($('#ppCompFiles'),{max:5,label:'Attach bill, report or document'});
+  $('#ppWaShare').addEventListener('click',()=>{ const t=[f.subject.value.trim(),f.body.value.trim()].filter(Boolean).join('\n\n'); if(!t) return toast('Write the notice first');
+    window.open('https://wa.me/?text='+encodeURIComponent('*Jaslok@Home*\n'+t),'_blank','noopener'); });
   f.addEventListener('submit',e=>{ e.preventDefault(); const b=$('button.primary',f); b.disabled=true; if(pick.files().length) b.textContent='Uploading…';
     ppGuard(async()=>{ try{ await Store.addPost({kind:f.kind.value,to:f.to.value,subject:f.subject.value,body:f.body.value,files:pick.files()}); toast('Sent'); renderPortal(); } finally{ b.disabled=false; b.textContent='Send'; } }); });
   ppBindPosts(body);
@@ -230,7 +236,7 @@ function ppAccounts(){
     ${staff.map(a=>{ const cs=Store.casesForAccount(S,a); const earn=a.dailyRate!==null?cs.reduce((s,c)=>s+(c.daysSoFar||0)*a.dailyRate,0):null; const pend=a.dailyRate!==null?cs.filter(c=>c.payout!=='Paid').reduce((s,c)=>s+(c.daysSoFar||0)*a.dailyRate,0):null;
       return `<tr class="${a.active?'':'muted'}"><td><b>${esc(a.name)}</b>${a.active?'':' (off)'}${a.mustChange?' <small style="color:var(--warn)">temp password</small>':''}</td><td>${esc(a.staffId)}</td><td>${esc(a.phone)}</td>
       <td><input class="pp-mini" data-rate="${a.id}" value="${a.dailyRate??''}" inputmode="numeric"></td><td><input class="pp-mini" data-addr="${a.id}" value="${esc(a.address)}" placeholder="area" style="width:130px"></td><td>${cs.filter(c=>c.ongoing).length}</td><td>${ppInr(earn)}</td><td>${ppInr(pend)}</td><td>${a.lastLogin?ppWhen(a.lastLogin):'never'}</td>
-      <td class="pp-rowacts"><button class="btn sm primary" data-prof="${a.id}">Profile &amp; QR</button><button class="btn sm" data-msg="${a.id}">Message</button><button class="btn sm" data-reset="${a.id}">Reset password</button><button class="btn sm" data-toggle="${a.id}">${a.active?'Switch off':'Switch on'}</button><button class="btn sm danger" data-del="${a.id}">Delete</button></td></tr>`; }).join('')}
+      <td class="pp-rowacts"><button class="btn sm primary" data-prof="${a.id}">Profile &amp; QR</button>${ppWaBtn(a.phone,`Hello ${a.name.split(' ')[0]}, this is the Jaslok@Home office.`,'WhatsApp')}<button class="btn sm" data-msg="${a.id}">Message</button><button class="btn sm" data-reset="${a.id}">Reset password</button><button class="btn sm" data-toggle="${a.id}">${a.active?'Switch off':'Switch on'}</button><button class="btn sm danger" data-del="${a.id}">Delete</button></td></tr>`; }).join('')}
   </tbody></table></div>`:''}
 
   <h2>Patient accounts <small class="lead">(${pats.length})</small></h2>
@@ -241,7 +247,7 @@ function ppAccounts(){
       <td>${cs.length?cs.map(c=>`<div><span class="link" data-case="${c.id}">${esc(c.name)} · ${esc(c.service||'—')}</span>${(a.caseIds||[]).includes(c.id)?` <span class="icon-btn" style="display:inline" data-unlink="${a.id}|${c.id}" title="Unlink">✕</span>`:''}</div>`).join(''):'<span class="lead">none</span>'}</td>
       <td><select class="pp-mini" data-link="${a.id}" style="max-width:220px"><option value="">— pick a case —</option>${t?t.rows.filter(r=>!linked.has(r.id)).map(r=>{ const v=Store.caseView(t,r); return `<option value="${r.id}">${esc(v.name||'(no name)')} · ${esc(v.service)} · ${esc(fmtDate(v.start))}</option>`; }).join(''):''}</select></td>
       <td>${ppWhen(a.created)}</td>
-      <td class="pp-rowacts"><button class="btn sm" data-msg="${a.id}">Message</button><button class="btn sm" data-reset="${a.id}">Reset password</button><button class="btn sm" data-toggle="${a.id}">${a.active?'Switch off':'Switch on'}</button><button class="btn sm danger" data-del="${a.id}">Delete</button></td></tr>`; }).join('')}
+      <td class="pp-rowacts">${ppWaBtn(a.phone,`Hello ${a.name.split(' ')[0]}, this is the Jaslok@Home office.`,'WhatsApp')}<button class="btn sm" data-msg="${a.id}">Message</button><button class="btn sm" data-reset="${a.id}">Reset password</button><button class="btn sm" data-toggle="${a.id}">${a.active?'Switch off':'Switch on'}</button><button class="btn sm danger" data-del="${a.id}">Delete</button></td></tr>`; }).join('')}
   </tbody></table></div>`:`<p class="lead">No patient accounts yet.</p>`}
 
   <h2>Admin account</h2>
@@ -304,7 +310,7 @@ function ppBilling(){
       <td style="white-space:nowrap"><input class="pp-mini" list="ppStaffNames" data-c="${esc(C.staff)}" value="${esc(v.staff)}" style="width:130px"> <button class="btn sm" data-suggest="${r.id}" title="Suggest the nearest nurse">📍</button></td>
       <td><select class="pp-mini pay-${esc(v.pay.replace(/\s/g,''))}" data-c="${esc(C.pay)}">${Store.PAY_STATUSES.map(s=>`<option ${s===v.pay?'selected':''}>${s}</option>`).join('')}</select></td>
       <td><input class="pp-mini" data-c="${esc(C.paid)}" value="${v.paid??''}" inputmode="numeric" style="width:90px"></td>
-      <td>${['Paid','Waived'].includes(v.pay)?'—':ppInr(v.balance)}</td>
+      <td style="white-space:nowrap">${['Paid','Waived'].includes(v.pay)?'—':ppInr(v.balance)}${!['Paid','Waived'].includes(v.pay)&&v.balance&&!v.enquiry?' '+ppWaBtn(v.phone,`Hello, this is a gentle reminder from Jaslok@Home about the bill for ${v.name} (${v.service}). Balance due: ${ppInr(v.balance)}. Please reply here if you have any questions. Thank you!`,'💬 Remind','Send a payment reminder on WhatsApp'):''}</td>
       <td><select class="pp-mini" data-c="${esc(C.payout)}" ${v.staff?'':'disabled'}>${Store.PAYOUT_STATUSES.map(s=>`<option ${s===v.payout?'selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')}
     </tbody></table></div>${rows.length>400?'<p class="lead">Showing the first 400. Search to narrow down.</p>':''}`:`<div class="empty"><h2>No cases match</h2></div>`}`;
   $('.pp-chips',body).addEventListener('click',e=>{ const c=e.target.closest('[data-f]'); if(c){ PP.billFilter=c.dataset.f; renderPortal(); } });
@@ -377,7 +383,7 @@ function ppSuggestHTML(rowId, geo){
   if(!list.length) return `<div class="mp-sug muted">No nurse has a home area on the map yet. Add it in Portal → Accounts, then press “Find locations”.</div>`;
   return `<div class="mp-sug"><div class="mp-sug-h">Nearest nurses <small>(free first)</small></div>${list.map(s=>`<div class="mp-sug-r"><span class="mp-dot" style="background:${s.color}"></span>
     <span class="mp-sug-n"><b>${esc(s.a.name)}</b><small>${s.km<1?'<1':s.km.toFixed(1)} km · ${s.duties?`${s.duties} ongoing dut${s.duties>1?'ies':'y'}`:'<span style="color:var(--ok,#16794C);font-weight:700">free</span>'}${s.upcoming?` · ${s.upcoming} upcoming`:''}</small></span>
-    <button class="btn sm primary" data-massign="${rowId}" data-name="${esc(s.a.name)}">Assign</button><button class="btn sm" data-massign="${rowId}" data-name="${esc(s.a.name)}" data-add="1" title="Keep the current nurse and add this one">+ Add</button></div>`).join('')}
+    ${ppWaBtn(s.a.phone,`Hello ${s.a.name.split(' ')[0]}, are you available for a home-care duty near ${ppGeoLabel(rowId)}? Please reply. – Jaslok@Home office`,'💬','Ask on WhatsApp if available')}<button class="btn sm primary" data-massign="${rowId}" data-name="${esc(s.a.name)}">Assign</button><button class="btn sm" data-massign="${rowId}" data-name="${esc(s.a.name)}" data-add="1" title="Keep the current nurse and add this one">+ Add</button></div>`).join('')}
     ${noHome?`<div class="muted" style="font-size:11.5px;margin-top:4px">${noHome} nurse${noHome>1?'s':''} without a home area not shown.</div>`:''}</div>`;
 }
 // popover from the Billing status table
@@ -496,7 +502,7 @@ function ppRecordDocs(d, t, row){
 const DIETS=['','Vegetarian','Non-vegetarian','Eggetarian','Jain','Vegan'];
 async function ppPhotoSrc(a){
   if(!a||!a.photoId) return null;
-  try{ const f=await Store.rpc('get_file',{p_token:localStorage.getItem('jh-token'), p_id:a.photoId}); return `data:${f.mime};base64,${f.b64}`; }catch(e){ return null; }
+  try{ const f=await Store.rpc('get_file',{p_token:Store.token(), p_id:a.photoId}); return `data:${f.mime};base64,${f.b64}`; }catch(e){ return null; }
 }
 function ppCloseModal(){ const m=document.getElementById('ppModal'); if(m) m.remove(); }
 async function ppProfileEditor(id){
@@ -646,3 +652,34 @@ function ppStaffDrawer(d, t, row){
   body.insertBefore(box, body.firstChild);
   const b=$('#ldProf',box); if(b) b.addEventListener('click',()=>{ closeDrawer(); ppProfileEditor(a.id); });
 }
+
+
+/* =====================================================================
+   NAVIGATION — quick launcher, direct links (?go=…), WhatsApp buttons
+   ===================================================================== */
+function ppWaBtn(phone, text, label='WhatsApp', title){
+  const n=cleanPhone(phone||''); if(!n || n.length<11) return '';
+  return `<a class="btn sm wa" target="_blank" rel="noopener" title="${esc(title||'Open WhatsApp with a ready message')}" href="https://wa.me/${n}?text=${encodeURIComponent(text)}">${label}</a>`;
+}
+function ppGeoLabel(rowId){ const t=ppTab(); const r=t&&rowById(t,rowId); return r? (ppPlaceOf(t,r)||'the patient') : 'the patient'; }
+function ppLauncher(){
+  const tiles=[['map','🗺','Map','Patients & nurses on a map'],['whatsapp','💬','WhatsApp','Templated messages to families'],['accounts','👥','Accounts','Staff logins, patients, QR codes'],
+    ['board','📊','Spreadsheet','Patient Data · Excel import/export'],['staff','📒','Staff ledger','Duties, earnings, payouts'],['billing','💳','Billing','Payments & reminders'],
+    ['inquiries','📥','Inquiries','From the website'],['reviews','⭐','Reviews','Ratings & comments']];
+  return `<div class="pp-launch">${tiles.map(([k,i,t,d])=>`<button data-go="${k}"><span class="i">${i}</span><b>${t}</b><small>${d}</small></button>`).join('')}</div>`;
+}
+function ppGo(k){
+  const t=ppTab(), st=Store.staffTab(S), cons=S.tabs.find(x=>/consum/i.test(x.name));
+  const sec={accounts:'accounts',billing:'billing',inquiries:'inquiries',reviews:'reviews',inbox:'inbox',notices:'notices'}[k];
+  if(sec){ S.active='__portal'; PP.sec=sec; renderAll(); return; }
+  if(k==='map'){ S.active='__map'; renderAll(); return; }
+  if(k==='staff'&&st){ S.active=st.id; renderAll(); return; }
+  if(k==='consumables'&&cons){ S.active=cons.id; renderAll(); return; }
+  if(k==='dashboard'||k==='info'||k==='settings'){ S.active='__'+(k==='dashboard'?'dash':k); renderAll(); return; }
+  if(t){ S.active=t.id; renderAll(); }
+  if(k==='whatsapp'&&t){
+    const r=t.rows.find(r=>{ const v=Store.caseView(t,r,S.settings.daysInclusive); return v.ongoing&&v.phone; });
+    if(r) setTimeout(()=>{ openWhatsApp(r.id); toast('WhatsApp: pick a template, check the message, press Send'); },80);
+  }
+}
+function ppApplyGo(){ const g=new URLSearchParams(location.search).get('go'); if(g) ppGo(g); }

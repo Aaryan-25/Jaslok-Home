@@ -361,6 +361,12 @@ table.dt tr.muted td{opacity:.6}
 .mp-sug-n{flex:1;display:flex;flex-direction:column;line-height:1.25}.mp-sug-n small{color:var(--muted)}
 .mp-sug .btn.sm{padding:2px 8px;font-size:12px}
 @media (max-width:800px){ .mp{grid-template-columns:1fr;height:auto} .mp-side{border-right:none;border-bottom:1px solid var(--line)} #mapEl{height:70vh} }
+/* portal launcher + WhatsApp buttons */
+.pp-launch{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:8px;margin:4px 0 16px}
+.pp-launch button{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:8px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer}
+.pp-launch button:hover{border-color:var(--accent);box-shadow:0 2px 10px rgba(31,111,107,.12)}
+.pp-launch .i{grid-row:1/3;font-size:22px}.pp-launch b{font-size:13.5px}.pp-launch small{color:var(--muted);font-size:11.5px;line-height:1.25}
+.btn.wa,a.btn.wa{background:#25D366;border-color:#25D366;color:#fff !important}.btn.wa:hover{background:#1EBE5A}
 /* nurse profile editor */
 .pp-modal-bg{position:fixed;inset:0;background:rgba(15,30,28,.45);z-index:80;display:flex;align-items:flex-start;justify-content:center;padding:4vh 14px;overflow:auto}
 .pp-modal{background:var(--surface);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);width:100%;max-width:860px;padding:22px;position:relative}
@@ -416,6 +422,7 @@ table.dt tr.muted td{opacity:.6}
 
 <script src="vendor/exceljs.min.js"></script>
 <script src="js/config.js"></script>
+<script src="js/demo.js"></script>
 <script src="js/store.js"></script>
 <script src="js/common.js"></script>
 <script src="vendor/qrcode.js"></script>
@@ -496,7 +503,7 @@ const ICON = {
 /* ---------------- storage (IndexedDB, falls back to memory) ---------------- */
 const DB = {
   db:null,
-  open(){ return new Promise(res=>{ try{ const r=indexedDB.open('homecare-board',1);
+  open(){ return new Promise(res=>{ try{ const r=indexedDB.open((window.JH_DEMO&&JH_DEMO.on)?'homecare-board-demo':'homecare-board',1);
       r.onupgradeneeded=()=>{ r.result.createObjectStore('kv'); };
       r.onsuccess=()=>{ this.db=r.result; res(true); }; r.onerror=()=>res(false);
     }catch(e){ res(false); } }); },
@@ -1661,7 +1668,7 @@ function renderInfo(){
   $('#boardWrap').innerHTML=`<div class="page"><div class="page-inner">
   <h1>How to use the board</h1>
   <p class="lead">Each spreadsheet row becomes a card, and each column becomes a tag on that card. Your data stays in this browser until you export it.</p>
-  <div class="toc">${['Getting started','Cards & colours','Selecting','Filter & sort','Viewing & editing','WhatsApp','Notices','Dates & renewals','Documents','Import & export','Dashboard','Shortcuts','Data & privacy','Portal & logins','Map & nearest nurse','Attached documents','Sync & app','Nurse profiles & QR','Staff ledger'].map((x,i)=>`<a class="chip" href="#g${i}">${x}</a>`).join('')}</div>
+  <div class="toc">${['Getting started','Cards & colours','Selecting','Filter & sort','Viewing & editing','WhatsApp','Notices','Dates & renewals','Documents','Import & export','Dashboard','Shortcuts','Data & privacy','Portal & logins','Map & nearest nurse','Attached documents','Sync & app','Nurse profiles & QR','Staff ledger','Navigation & demo'].map((x,i)=>`<a class="chip" href="#g${i}">${x}</a>`).join('')}</div>
 
   <h2 id="g0">1 · Getting started</h2>
   <ol><li>Click <b>Import .xlsx</b> and choose your workbook. Every sheet becomes a tab. A sheet whose name matches an existing tab (for example “Patient Data”) replaces that tab's cards.</li>
@@ -1797,7 +1804,13 @@ function renderInfo(){
   <li>Earnings come from Patient Data: days worked × daily rate, and Staff Payout (Paid / Pending) set in Portal → Billing status. Use the board's filters, sorting and Excel export on the Staff tab as usual.</li>
   <li>The <b>Consumables</b> tab is still entered by hand (or imported from Excel when you have a sheet).</li></ul>
 
-  <h2 id="g12">20 · Data &amp; privacy</h2>
+  <h2 id="g19">20 · Finding your way &amp; the live demo</h2>
+  <ul><li><b>Quick launcher:</b> the top of the <b>Portal</b> tab has one button per feature: Map, WhatsApp, Accounts, Spreadsheet, Staff ledger, Billing, Inquiries, Reviews.</li>
+  <li><b>WhatsApp</b> buttons (green) are on every case card (templated messages), on messages in the Inbox, on each account, on unpaid bills (<b>💬 Remind</b>), in the map's nurse suggestions (ask a nurse if she is free), and on notices (<b>Share on WhatsApp</b>, to post in your groups). Patients and nurses have WhatsApp buttons in their app too.</li>
+  <li><b>Direct links:</b> add <span class="kbd">?go=map</span>, <span class="kbd">?go=accounts</span>, <span class="kbd">?go=billing</span>, <span class="kbd">?go=staff</span>, <span class="kbd">?go=whatsapp</span> or <span class="kbd">?go=inquiries</span> to the board's address to open straight on that feature, e.g. as a bookmark.</li>
+  <li><b>Live demo:</b> the website's <b>Explore the platform</b> section opens a demo with <b>fictional</b> patients, nurses, bills and reviews. It runs only in the visitor's browser tab: it never reads or writes your real database, and it is thrown away when the tab closes. In the demo every password is <span class="kbd">demo1234</span>. An orange <b>DEMO</b> bar shows on every demo page, with buttons to switch between office, patient and nurse views.</li></ul>
+
+  <h2 id="g12">21 · Data &amp; privacy</h2>
   <ul><li>Cards, accounts, messages, inquiries and documents are stored in your <b>Supabase</b> database (and the board also on this computer). The website only ever talks to the database through checked functions, so the public key in the code cannot read any table directly.</li>
   <li>Each person receives only what they may see: a patient only their own cases, without internal columns; a staff member only their assigned cases; only the admin sees everything.</li>
   <li>Passwords are stored scrambled (hashed). 8 wrong passwords lock that account for 10 minutes. If you forget the admin password, reset it from the Supabase SQL editor (see README).</li>
@@ -1840,6 +1853,7 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http')){ naviga
   if(useCloud){ DB.set('state',JSON.parse(JSON.stringify(S))); syncStatus('ok'); }
   else if(cloudOk){ scheduleCloud(); flushCloud(); }   // first upload, or this device has newer changes
   Store.startPolling(20000);
+  ppApplyGo();
 })();
 </script>
 </body>

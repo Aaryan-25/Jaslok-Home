@@ -11,7 +11,8 @@
 
 (function(global){
 const CFG = global.JH_CONFIG || {};
-const TOKEN_KEY = 'jh-token';
+const DEMO = !!(global.JH_DEMO && global.JH_DEMO.on);
+const TOKEN_KEY = DEMO ? global.JH_DEMO.TOKEN : 'jh-token';
 
 /* ---------- small helpers ---------- */
 const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4);
@@ -32,6 +33,10 @@ function setToken(t){ try{ t? localStorage.setItem(TOKEN_KEY,t) : localStorage.r
 
 /* ---------- server call ---------- */
 async function rpc(fn, args={}){
+  if(DEMO){
+    try{ return await global.JH_DEMO.rpc(fn, args); }
+    catch(e){ if(/Please log in again/.test(e.message)){ setToken(''); Store.state=null; } throw e; }
+  }
   if(!CFG.supabaseUrl) throw new Error('The database is not configured (js/config.js).');
   let res;
   try{
@@ -132,7 +137,7 @@ let readQueue = new Set(), readTimer = null, refreshing = null;
 const emit = () => listeners.forEach(f=>{ try{ f(); }catch(e){ console.error(e); } });
 
 const Store = {
-  mode:'cloud', state:null,
+  mode: DEMO?'demo':'cloud', state:null, demo:DEMO, token:()=>getToken(),
   prepFile, COL, PAY_STATUSES, PAYOUT_STATUSES, phone10, isoToday, caseView, casesForAccount, patientTab, staffTab, checkPwRules, uid, staffKeysOf, rpc,
   onChange(fn){ listeners.add(fn); return ()=>listeners.delete(fn); },
 

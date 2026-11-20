@@ -99,6 +99,22 @@ section.s{padding:64px 0}
 .inq h2{font-size:30px;margin:6px 0 10px;letter-spacing:-.4px}
 .eyebrow{font-size:12.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent2);font-weight:700}
 .formcard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+/* platform explorer */
+.plat{background:linear-gradient(180deg,#F4F9F8,#EAF4F2)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:860px;margin:0 auto 18px}
+.role{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;background:var(--accent);color:#fff;text-decoration:none;border-radius:16px;padding:16px 10px;box-shadow:0 8px 22px rgba(20,70,66,.18)}
+.role:hover{background:#185956;transform:translateY(-1px)}
+.role span{font-size:26px}.role b{font-size:16px}.role small{opacity:.85;font-size:12.5px}
+.feat{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ft{display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:border-color .15s,transform .15s}
+.ft:hover{border-color:var(--accent2);transform:translateY(-2px)}
+.ft i{font-style:normal;font-size:28px}.ft b{font-size:16px}.ft span{color:var(--ink2);font-size:13.5px;flex:1}.ft em{font-style:normal;color:var(--accent);font-weight:600;font-size:13.5px}
+@media (max-width:1000px){ .feat{grid-template-columns:1fr 1fr} } @media (max-width:560px){ .feat{grid-template-columns:1fr} .roles{grid-template-columns:1fr} }
+.explore-link{display:inline-block;margin-top:18px;color:var(--accent);font-weight:600;text-decoration:none;border-bottom:2px solid var(--accent-soft)}
+.demo-btn{background:#F5A524;border-color:#F5A524;color:#1b1b1b}.demo-btn:hover{background:#E8961A}
+@media (max-width:520px){ .demo-btn{display:none} }
+.wa-fab{position:fixed;right:18px;bottom:18px;z-index:40;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(0,0,0,.25)}
+.wa-fab svg{width:30px;height:30px;fill:#fff}
 footer{background:#163F3C;color:#CFE3E0;padding:30px 0 34px;font-size:13.5px;margin-top:0}
 footer .wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 footer a{color:#fff}
@@ -113,11 +129,13 @@ footer .ecg{width:100%;height:24px;stroke:#5FA9A3;fill:none;stroke-width:1.5;opa
     <div><div class="bt">Jaslok@Home</div><div class="bs">Jaslok Hospital · A lifetime of care</div></div>
   </a>
   <span class="spacer"></span>
+  <a class="l" href="#platform">Platform</a>
   <a class="l" href="#services">Services</a>
   <a class="l" href="#why">Why us</a>
   <a class="l" href="#how">How it works</a>
   <a class="l" href="#inquiry">Contact</a>
   <button class="btn sm hidden" data-install title="Install this website as an app">⤓ Install app</button>
+  <a class="btn sm demo-btn" href="#platform" title="Try every feature with fictional data">▶ Live demo</a>
   <span id="navAuth"><button class="btn sm" data-open-login>Log in</button></span>
   <a class="btn sm primary" href="#inquiry" id="navReq">Enquire</a>
 </div></nav>
@@ -139,6 +157,7 @@ footer .ecg{width:100%;height:24px;stroke:#5FA9A3;fill:none;stroke-width:1.5;opa
         <a class="btn primary" href="#inquiry">Send an enquiry</a>
         <a class="btn" href="tel:+917301900190">Call +91 73 0190 0190</a>
       </div>
+      <a href="#platform" class="explore-link">▶ See how our platform works: map, WhatsApp, patient &amp; nurse apps</a>
     </div>
     <div class="hero-art">
       <div class="hero-card">
@@ -159,6 +178,27 @@ footer .ecg{width:100%;height:24px;stroke:#5FA9A3;fill:none;stroke-width:1.5;opa
   </div>
   <svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50C320 90 720 10 1440 40V80H0z" fill="#F4F9F8"/><path d="M0 50C320 90 720 10 1440 40" fill="none" stroke="#1F6F6B" stroke-width="10" opacity=".9"/></svg>
 </header>
+
+<section class="s plat" id="platform"><div class="wrap">
+  <h2 class="sec-title">Explore the platform</h2>
+  <p class="sec-sub">Everything Jaslok@Home runs on, in one place. Click any feature to open a <b>live demo</b> filled with <b>fictional</b> patients and nurses. No login needed, and nothing you change is saved.</p>
+  <div class="roles">
+    <a class="role" href="admin.html?demo=admin"><span>🏥</span><b>Office (admin)</b><small>Board, map, accounts, billing</small></a>
+    <a class="role" href="portal.html?demo=patient"><span>🧑‍🦳</span><b>Patient &amp; family</b><small>Current care, bills, documents</small></a>
+    <a class="role" href="portal.html?demo=staff"><span>🩺</span><b>Nurse</b><small>Duties, directions, earnings</small></a>
+  </div>
+  <div class="feat">
+    <a class="ft" href="admin.html?demo=admin&go=map"><i>🗺️</i><b>Live map</b><span>Every patient and nurse on a map of Mumbai, with the nearest free nurse suggested in one click.</span><em>Open map →</em></a>
+    <a class="ft" href="admin.html?demo=admin&go=whatsapp"><i>💬</i><b>WhatsApp messaging</b><span>Ready-made WhatsApp messages to families and nurses: visit reminders, payment reminders, notices.</span><em>Try WhatsApp →</em></a>
+    <a class="ft" href="admin.html?demo=admin&go=accounts"><i>👥</i><b>Admin &amp; account management</b><span>Create nurse logins, manage patient accounts, reset passwords, switch accounts on or off.</span><em>Manage accounts →</em></a>
+    <a class="ft" href="admin.html?demo=admin&go=board"><i>📊</i><b>Spreadsheet management</b><span>Patient, staff and consumables sheets as cards, with filters, colour-coding and Excel import/export.</span><em>Open sheets →</em></a>
+    <a class="ft" href="admin.html?demo=admin&go=billing"><i>💳</i><b>Billing &amp; nurse income</b><span>Payments, balances and staff payouts in one table. The staff ledger updates itself.</span><em>See billing →</em></a>
+    <a class="ft" href="nurse.html?demo=1&n=anita-d-souza-demo"><i>⭐</i><b>Nurse profiles &amp; QR codes</b><span>Each nurse has a public profile with ratings and reviews, reached by the QR code on her card.</span><em>View a profile →</em></a>
+    <a class="ft" href="portal.html?demo=patient"><i>📱</i><b>Patient app</b><span>Current service, history, bills, documents, and messages to the office with attachments.</span><em>Open patient app →</em></a>
+    <a class="ft" href="portal.html?demo=staff"><i>🧭</i><b>Nurse app</b><span>Today's duties with directions, handover notes, alerts and earnings, on the nurse's phone.</span><em>Open nurse app →</em></a>
+  </div>
+  <p class="muted" style="text-align:center;font-size:13px;margin-top:16px">Patients, staff and the office use the <b>Log in</b> button at the top for their real accounts.</p>
+</div></section>
 
 <section class="s" id="services"><div class="wrap">
   <h2 class="sec-title">Our services</h2>
@@ -233,6 +273,8 @@ footer .ecg{width:100%;height:24px;stroke:#5FA9A3;fill:none;stroke-width:1.5;opa
   <a href="#" data-install class="hidden">Install app</a>
 </div></footer>
 
+<a class="wa-fab" href="https://wa.me/917301900190?text=Hello%20Jaslok%40Home%2C%20I%20would%20like%20to%20know%20about%20home%20care." target="_blank" rel="noopener" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
+
 <!-- login / signup -->
 <div class="modal-bg hidden" id="authBg"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <button class="x" data-close aria-label="Close">×</button>
@@ -265,6 +307,7 @@ footer .ecg{width:100%;height:24px;stroke:#5FA9A3;fill:none;stroke-width:1.5;opa
 <div id="toast"></div>
 
 <script src="js/config.js"></script>
+<script src="js/demo.js"></script>
 <script src="js/store.js"></script>
 <script src="js/common.js"></script>
 <script>

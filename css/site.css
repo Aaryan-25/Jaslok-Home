@@ -116,3 +116,5 @@ table.t td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowr
 .topbar{box-shadow:0 1px 0 var(--line)}
 .logo b{color:var(--accent)}
 .duty-acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+.btn.wa{background:#25D366;border-color:#25D366;color:#fff}.btn.wa:hover{background:#1EBE5A}
