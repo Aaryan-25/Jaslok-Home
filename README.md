@@ -12,7 +12,8 @@ Patient registration · map-based nurse rostering · billing · staff ledger · 
 <a href="https://aaryan-25.github.io/Jaslok-Home/portal.html?demo=staff">Nurse app</a>
 </p>
 
-<p align="center"><a href="https://aaryan-25.github.io/Jaslok-Home/about.html"><img src="media/walkthrough-poster.jpg" alt="Watch the one-minute walkthrough" width="80%"></a><br><sub>▶ Click to watch the walkthrough. All data in the demo is fictional.</sub></p>
+## ▶ One-minute walkthrough
+<p align="center"><a href="https://aaryan-25.github.io/Jaslok-Home/media/walkthrough.mp4"><img src="media/walkthrough.gif" alt="One-minute walkthrough of the Jaslok@Home platform" width="100%"></a><br><sub>Silent preview plays above · <a href="https://aaryan-25.github.io/Jaslok-Home/media/walkthrough.mp4"><b>Watch the full-quality video</b></a> · <a href="https://aaryan-25.github.io/Jaslok-Home/about.html">About page</a> · All data in the demo is fictional.</sub></p>
 
 ## Why it exists
 Home-care services usually run on phone calls, WhatsApp chats and separate Excel sheets. A hospital has an HMIS; a home-care service rarely does, even though it needs the same things (registration, scheduling, billing, HR and feedback) across a "ward" spread over a whole city. Jaslok@Home puts all of it on **one record per case**, with a separate simple app for the office, the nurse and the family.
